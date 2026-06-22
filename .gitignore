@@ -1,0 +1,7 @@
+.Rhistory
+.RData
+.Rproj.user/
+renv/library/
+renv/staging/
+data/simulated/*.rds
+data/real/*.rds
