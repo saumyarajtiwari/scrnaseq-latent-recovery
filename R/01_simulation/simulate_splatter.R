@@ -29,7 +29,7 @@ source("R/01_simulation/param_dict.R")
 param_grid <- read.csv("data/simulated/param_grid.csv", stringsAsFactors = FALSE)
 
 N_GENES   <- 10000L
-N_WORKERS <- 10L
+N_WORKERS <- 6L
 OUT_DIR   <- "data/simulated/splatter"
 
 dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
