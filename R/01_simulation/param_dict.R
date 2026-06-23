@@ -21,18 +21,39 @@ splatter_dropout <- list(
   "high" = list(dropout.type = "experiment", dropout.mid = 1.0)
 )
 
-# NOTE: mean.rate values are starting estimates.
-# Empirical calibration required before full grid execution.
+# NOTE: Sparsity is controlled via bcv.common (biological coefficient of variation),
+# NOT mean.rate. Splatter normalizes gene means by their sum during count generation,
+# canceling any absolute scaling effect from mean.rate — it has no effect on sparsity.
+#
+# bcv.common sets negative binomial overdispersion, which directly determines
+# structural zero rate. Empirically calibrated at:
+#   nGenes = 10000, lib.loc = 7.6 (~2000 UMI/cell), dropout.type = "none"
+#   Full table: data/simulated/splatter_calib_bcv2.csv
+#
+# Achieved structural sparsity at depth = 2000 UMI (lib.loc = 7.6):
+#   "0.70" -> bcv.common = 0.01  -> actual = 0.9138
+#   "0.80" -> bcv.common = 0.20  -> actual = 0.9179
+#   "0.90" -> bcv.common = 0.80  -> actual = 0.9316
+#   "0.95" -> bcv.common = 2.00  -> actual = 0.9518
+#   "0.98" -> bcv.common = 3.00  -> actual = 0.9623
+#
+# DESIGN NOTE: Grid labels (0.70 ... 0.98) are ordinal identifiers for five levels
+# of structural overdispersion, not absolute sparsity targets. Actual sparsity varies
+# jointly with depth and bcv.common. Full range across the depth x bcv.common grid
+# spans approximately 0.76 (high depth, low BCV) to 0.99+ (low depth, high BCV).
+# Actual achieved sparsity per simulation run is recorded in run metadata at
+# simulation time and is the true sparsity variable for all downstream analysis.
 splatter_sparsity <- list(
-  "0.70" = list(mean.rate = 7.0),
-  "0.80" = list(mean.rate = 4.0),
-  "0.90" = list(mean.rate = 2.0),
-  "0.95" = list(mean.rate = 1.0),
-  "0.98" = list(mean.rate = 0.3)
+  "0.70" = list(bcv.common = 0.01),
+  "0.80" = list(bcv.common = 0.20),
+  "0.90" = list(bcv.common = 0.80),
+  "0.95" = list(bcv.common = 2.00),
+  "0.98" = list(bcv.common = 3.00)
 )
 
 # NOTE: lib.loc is log-scale (ln of target depth). lib.scale fixed at 0.2.
-# Starting estimates — empirical calibration required.
+# Empirically calibrated at nGenes = 10000, 500 cells, 3 replicates.
+# Full table: data/simulated/splatter_calib_depth.csv
 splatter_depth <- list(
   "500"   = list(lib.loc = 6.2, lib.scale = 0.2),
   "2000"  = list(lib.loc = 7.6, lib.scale = 0.2),
@@ -52,23 +73,23 @@ symsim_separability <- list(
 
 # NOTE: alpha_mean is capture efficiency.
 # Higher alpha_mean = more capture = fewer dropouts.
-# low dropout  → alpha_mean = 0.08 (high capture)
-# high dropout → alpha_mean = 0.02 (low capture)
+# low dropout  -> alpha_mean = 0.08 (high capture)
+# high dropout -> alpha_mean = 0.02 (low capture)
 symsim_dropout <- list(
   "none" = list(apply_dropout = FALSE, alpha_mean = NULL, alpha_sd = NULL),
   "low"  = list(apply_dropout = TRUE,  alpha_mean = 0.08, alpha_sd = 0.02),
   "high" = list(apply_dropout = TRUE,  alpha_mean = 0.02, alpha_sd = 0.01)
 )
 
-# NOTE: rangeUMI brackets require empirical verification.
+# NOTE: rangeUMI brackets require empirical verification before SymSim runs.
 symsim_depth <- list(
   "500"   = list(rangeUMI = c(200,  800)),
   "2000"  = list(rangeUMI = c(1000, 3000)),
   "10000" = list(rangeUMI = c(6000, 14000))
 )
 
-# NOTE: Sigma/bimod interaction for sparsity targeting requires
-# empirical calibration — same calibration pass as Splatter mean.rate.
+# NOTE: Sigma/bimod interaction for sparsity targeting requires empirical
+# calibration before SymSim simulation runs.
 
 # -----------------------------------------------------------------------------
 # scDESIGN3
@@ -101,12 +122,12 @@ scdesign3_depth <- list(
 
 # =============================================================================
 # CALIBRATION FLAGS
-# Parameters below are starting estimates requiring empirical calibration
-# before full grid execution.
+# Parameters requiring empirical calibration before simulator runs.
 # =============================================================================
 
 calibration_required <- list(
-  splatter  = c("mean.rate (sparsity)", "lib.loc (depth)"),
+  splatter  = character(0),   # COMPLETE: bcv.common (sparsity) verified in calib_bcv2.csv;
+                               #           lib.loc (depth) verified in calib_depth.csv
   symsim    = c("Sigma/bimod (sparsity)", "rangeUMI (depth)"),
   scdesign3 = c("lib_size_multiplier (depth)", "zero_inflation_pi via reference selection")
 )
