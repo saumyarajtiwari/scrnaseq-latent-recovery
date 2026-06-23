@@ -3,5 +3,6 @@
 .Rproj.user/
 renv/library/
 renv/staging/
-data/simulated/*.rds
-data/real/*.rds
+data/simulated/**/*.rds
+data/real/**/*.rds
+logs/
