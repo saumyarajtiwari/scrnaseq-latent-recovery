@@ -58,7 +58,7 @@ run_one_splatter <- function(i) {
   }
 
   # -- Parameters from param_dict --
-  sparsity_p     <- splatter_sparsity[[as.character(row$sparsity)]]
+  sparsity_p     <- splatter_sparsity[[sprintf("%.2f", as.numeric(row$sparsity))]]
   depth_p        <- splatter_depth[[as.character(row$depth)]]
   dropout_p      <- splatter_dropout[[row$dropout]]
   separability_p <- splatter_separability[[row$separability]]
