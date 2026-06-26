@@ -95,13 +95,19 @@ symsim_depth <- list(
 # scDESIGN3
 # -----------------------------------------------------------------------------
 
-# Separability controlled by mu_formula + reference dataset.
-# Reference datasets specified in scDesign3 simulation script.
+# Separability controlled by cell type subset selected from PBMC 3k reference.
+# Reference: TENxPBMCData pbmc3k, top 2000 HVGs, annotated via scran clustering
+# and canonical marker genes. Full annotation: data/simulated/pbmc3k_annotated.rds
+#
+# null   : CD4_T only (1135 cells)           — single population
+# low    : CD4_T + CD8_T (1485 cells)        — closely related lymphocytes
+# medium : CD4_T + CD8_T + B_cell + NK (2009 cells) — moderate spread
+# high   : all 5 types (2695 cells)          — maximally distinct (lymphoid + myeloid)
 scdesign3_separability <- list(
-  "null"   = list(mu_formula = "1",         reference_structure = "single_population"),
-  "low"    = list(mu_formula = "cell_type", reference_structure = "overlapping_clusters"),
-  "medium" = list(mu_formula = "cell_type", reference_structure = "moderate_separation"),
-  "high"   = list(mu_formula = "cell_type", reference_structure = "well_separated")
+  "null"   = list(mu_formula = "1",         cell_types = c("CD4_T")),
+  "low"    = list(mu_formula = "cell_type", cell_types = c("CD4_T", "CD8_T")),
+  "medium" = list(mu_formula = "cell_type", cell_types = c("CD4_T", "CD8_T", "B_cell", "NK")),
+  "high"   = list(mu_formula = "cell_type", cell_types = c("CD4_T", "CD8_T", "B_cell", "NK", "Monocyte"))
 )
 
 # pi (zero-inflation) fitted from reference.
@@ -112,12 +118,16 @@ scdesign3_dropout <- list(
   "high" = list(family_use = "zinb", zero_inflation_pi = 0.40)
 )
 
-# Assumes reference baseline depth ~2000 UMI.
-# Multiplier verified at scDesign3 script stage.
+# Empirically calibrated against PBMC 3k HVG subset (2000 genes).
+# Baseline depth of HVG subset = 1116.9 UMI/cell (lower than full matrix
+# because counts are distributed across fewer genes after HVG selection).
+# Multipliers derived as target / baseline: 500/1117, 2000/1117, 10000/1117.
+# Verified: 0.45 -> 500.0, 1.79 -> 1999.9, 8.95 -> 10000.0 UMI/cell.
+# Full table: data/simulated/scdesign3_calib_depth.csv
 scdesign3_depth <- list(
-  "500"   = list(lib_size_multiplier = 0.25),
-  "2000"  = list(lib_size_multiplier = 1.00),
-  "10000" = list(lib_size_multiplier = 5.00)
+  "500"   = list(lib_size_multiplier = 0.45),
+  "2000"  = list(lib_size_multiplier = 1.79),
+  "10000" = list(lib_size_multiplier = 8.95)
 )
 
 # =============================================================================
@@ -129,5 +139,6 @@ calibration_required <- list(
   splatter  = character(0),   # COMPLETE: bcv.common (sparsity) verified in calib_bcv2.csv;
                                #           lib.loc (depth) verified in calib_depth.csv
   symsim    = c("Sigma/bimod (sparsity)", "rangeUMI (depth)"),
-  scdesign3 = c("lib_size_multiplier (depth)", "zero_inflation_pi via reference selection")
+  scdesign3 = character(0)   # COMPLETE: depth multipliers verified in scdesign3_calib_depth.csv;
+                               #           separability verified via PBMC 3k cluster annotation
 )
