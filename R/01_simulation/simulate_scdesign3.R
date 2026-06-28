@@ -51,6 +51,12 @@ cat(sprintf("Reference: %d genes x %d cells, %d cell types\n\n",
             nrow(ref_full), ncol(ref_full),
             length(unique(ref_full$cell_type))))
 
+cat("Materializing counts into RAM (DelayedMatrix -> dgCMatrix)...\n")
+suppressPackageStartupMessages(library(SingleCellExperiment))
+counts(ref_full) <- as(counts(ref_full), "dgCMatrix")
+gc()
+cat("Materialization complete.\n\n")
+
 # =============================================================================
 # IDENTIFY UNIQUE FIT CONFIGURATIONS
 # =============================================================================
