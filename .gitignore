@@ -6,3 +6,4 @@ renv/staging/
 data/simulated/**/*.rds
 data/real/**/*.rds
 logs/
+vendor/
