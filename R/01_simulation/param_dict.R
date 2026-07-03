@@ -63,33 +63,63 @@ splatter_depth <- list(
 # -----------------------------------------------------------------------------
 # SYMSIM
 # -----------------------------------------------------------------------------
+# Calibration: calibrate_symsim.R
+# Full tables: data/simulated/symsim_calib_sigma.csv
+#              data/simulated/symsim_calib_depth.csv
+#
+# API confirmed:
+#   SimulateTrueCounts: randseed=run_id for reproducibility
+#   True2ObservedCounts: no seed arg -> set.seed(run_id) before each call
+#   No apply_dropout flag; no rangeUMI parameter
+#
+# SIGMA: Sigma does not meaningfully control sparsity (range 0.62-0.66 across
+# Sigma 0.1-2.0 at ngenes=2000). Fixed at 0.4 throughout. Sparsity labels are
+# ordinal identifiers, same design as Splatter and scDesign3. Actual achieved
+# sparsity recorded per run in metadata.
+SYMSIM_SIGMA <- 0.4
 
+# SEPARABILITY: controlled via evf_type and n_de_evf (number of DE EVFs).
+# Higher n_de_evf = more genes differ between populations = better separation.
+# null uses evf_type="one.population" (single population, no tree structure).
 symsim_separability <- list(
-  "null"   = list(n_cell_types = 1, evf_center_sd = 0.0),
-  "low"    = list(n_cell_types = 5, evf_center_sd = 0.5),
-  "medium" = list(n_cell_types = 5, evf_center_sd = 1.0),
-  "high"   = list(n_cell_types = 5, evf_center_sd = 2.0)
+  "null"   = list(evf_type = "one.population", n_de_evf = 0L),
+  "low"    = list(evf_type = "discrete",        n_de_evf = 2L),
+  "medium" = list(evf_type = "discrete",        n_de_evf = 5L),
+  "high"   = list(evf_type = "discrete",        n_de_evf = 8L)
 )
 
-# NOTE: alpha_mean is capture efficiency.
-# Higher alpha_mean = more capture = fewer dropouts.
-# low dropout  -> alpha_mean = 0.08 (high capture)
-# high dropout -> alpha_mean = 0.02 (low capture)
+# DROPOUT: alpha_mean is capture efficiency (higher = more capture = fewer dropouts).
+# True2ObservedCounts cannot be disabled; "none" uses alpha_mean=0.97 (near-perfect
+# capture, minimal technical zeros beyond count model).
+# Confirmed A5 separation: none=0.58 sparsity, low=0.62, high=0.72 at depth_mean=5000.
 symsim_dropout <- list(
-  "none" = list(apply_dropout = FALSE, alpha_mean = NULL, alpha_sd = NULL),
-  "low"  = list(apply_dropout = TRUE,  alpha_mean = 0.08, alpha_sd = 0.02),
-  "high" = list(apply_dropout = TRUE,  alpha_mean = 0.02, alpha_sd = 0.01)
+  "none" = list(alpha_mean = 0.97, alpha_sd = 0.01),
+  "low"  = list(alpha_mean = 0.08, alpha_sd = 0.01),
+  "high" = list(alpha_mean = 0.02, alpha_sd = 0.01)
 )
 
-# NOTE: rangeUMI brackets require empirical verification before SymSim runs.
+# DEPTH: depth_mean -> actual UMI/cell is dropout-dependent (sublinear at low
+# alpha_mean due to capture saturation). Empirically calibrated per dropout level.
+# At high dropout (alpha=0.02), target 10000 UMI is physically unreachable
+# (saturates ~4000 UMI at depth_mean=50000); actual UMI recorded in run metadata.
+# depth_sd = 10% of depth_mean (min 50).
 symsim_depth <- list(
-  "500"   = list(rangeUMI = c(200,  800)),
-  "2000"  = list(rangeUMI = c(1000, 3000)),
-  "10000" = list(rangeUMI = c(6000, 14000))
+  "none" = list(
+    "500"   = list(depth_mean =   500L, depth_sd =   50L),
+    "2000"  = list(depth_mean =  2000L, depth_sd =  200L),
+    "10000" = list(depth_mean = 10000L, depth_sd = 1000L)
+  ),
+  "low" = list(
+    "500"   = list(depth_mean =   500L, depth_sd =   50L),
+    "2000"  = list(depth_mean =  2000L, depth_sd =  200L),
+    "10000" = list(depth_mean = 25000L, depth_sd = 2500L)
+  ),
+  "high" = list(
+    "500"   = list(depth_mean =   500L, depth_sd =   50L),
+    "2000"  = list(depth_mean =  5000L, depth_sd =  500L),
+    "10000" = list(depth_mean = 50000L, depth_sd = 5000L)
+  )
 )
-
-# NOTE: Sigma/bimod interaction for sparsity targeting requires empirical
-# calibration before SymSim simulation runs.
 
 # -----------------------------------------------------------------------------
 # scDESIGN3
@@ -138,7 +168,8 @@ scdesign3_depth <- list(
 calibration_required <- list(
   splatter  = character(0),   # COMPLETE: bcv.common (sparsity) verified in calib_bcv2.csv;
                                #           lib.loc (depth) verified in calib_depth.csv
-  symsim    = c("Sigma/bimod (sparsity)", "rangeUMI (depth)"),
+  symsim    = character(0),   # COMPLETE: Sigma fixed at 0.4 (does not control sparsity at ngenes=2000);
+                               #           depth_mean calibrated per dropout level in symsim_calib_depth.csv
   scdesign3 = character(0)   # COMPLETE: depth multipliers verified in scdesign3_calib_depth.csv;
                                #           separability verified via PBMC 3k cluster annotation
 )
