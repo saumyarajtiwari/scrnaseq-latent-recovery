@@ -1,0 +1,4 @@
+"dropout_label","dropout_pi"
+"none",0
+"low",0.1
+"high",0.4

@@ -1,19 +1,36 @@
 # =============================================================================
-# simulate_symsim.R
+# simulate_symsim.R  (REVISED — corrects a Step 1.7-discovered defect)
 #
-# Runs all 10,940 SymSim simulations from param_grid.csv.
-# One .rds output per run: sparse count matrix + cell metadata + run parameters.
+# CORRECTION NOTE:
+#   The original version (preserved as simulate_symsim_v1_INVALID_sparsity_inert.R)
+#   generated ONE count matrix per fit_key (separability x n_cells x batch x
+#   dropout x depth — sparsity was never part of it, by explicit design: see
+#   the original comment "Sparsity label does not affect simulation (Sigma
+#   fixed at 0.4)"). That count matrix was saved unchanged across all 5
+#   sparsity_label values sharing that fit_key. Result: sparsity_label had
+#   ZERO effect on simulated data, despite being logged in run_params as if
+#   it did. Discovered during Step 1.7 output validation (byte-identical
+#   actual_sparsity across all 5 sparsity labels within every sampled group).
 #
-# Strategy: simulate-once-save-many
-#   Unique SymSim calls: separability(4) x n_cells(3) x batch(3) x
-#                        dropout(3) x depth(3) = 244 unique simulations
-#   Sparsity label does not affect simulation (Sigma fixed at 0.4)
-#   gene_strategy and clipping are preprocessing-stage labels only
-#   Each unique call saves 45 files (main) or 5 files (null)
+#   FIX: dropout (via alpha_mean/depth_mean, already genuinely working and
+#   unchanged here) stays exactly as before. sparsity_label is now
+#   implemented as explicit, calibrated post-hoc stochastic zero-masking
+#   applied to the generated count matrix, using the same mechanism and
+#   calibration methodology already validated for scDesign3 (see
+#   simulate_scdesign3.R correction note):
+#     - sparsity mask_p (0/.15/.35/.55/.75) from symsim_calib_sparsity.csv
+#   Verified: strict monotonic sparsity ordering, zero degenerate all-zero
+#   cells even at the worst-case combination tested (depth=500, dropout=high,
+#   separability=high, smallest per-population size).
+#
+#   fit_key is unchanged (sparsity was never part of it) — same 244 unique
+#   simulations as before, masking applied per sparsity_label when saving.
 #
 # Reproducibility:
 #   SimulateTrueCounts  -> randseed = run_id of first row in fit group
 #   True2ObservedCounts -> set.seed(run_id of first row) before each call
+#   Post-hoc masking    -> set.seed(run_id * 1000 + sparsity_index), logged
+#                          per file as mask_seed
 #
 # Batch: independent sub-simulations per batch, concatenated
 #   none:    seed = run_id
@@ -36,6 +53,8 @@ suppressPackageStartupMessages({
 
 source("R/01_simulation/param_dict.R")
 param_grid <- read.csv("data/simulated/param_grid.csv", stringsAsFactors=FALSE)
+sparsity_calib <- read.csv("data/simulated/symsim_calib_sparsity.csv", stringsAsFactors=FALSE)
+mask_p_for_sparsity <- setNames(sparsity_calib$mask_p, as.character(sparsity_calib$sparsity_label))
 
 N_GENES   <- 2000L
 N_WORKERS <- 2L
@@ -43,7 +62,7 @@ OUT_DIR   <- "data/simulated/symsim"
 
 dir.create(OUT_DIR, recursive=TRUE, showWarnings=FALSE)
 
-cat("=== SymSim Simulation ===\n")
+cat("=== SymSim Simulation (REVISED) ===\n")
 cat(sprintf("Total runs       : %d\n",   nrow(param_grid)))
 cat(sprintf("Genes per run    : %d\n",   N_GENES))
 cat(sprintf("Parallel workers : %d\n",   N_WORKERS))
@@ -51,8 +70,21 @@ cat(sprintf("Output directory : %s\n",   OUT_DIR))
 cat(sprintf("Started          : %s\n\n", format(Sys.time())))
 
 # =============================================================================
-# IDENTIFY UNIQUE FIT GROUPS
-# Sparsity, gene_strategy, clipping do not affect SymSim output
+# MASKING FUNCTION
+# =============================================================================
+
+apply_mask <- function(mat, p, seed) {
+  if (p <= 0) return(mat)
+  set.seed(seed)
+  mat_t <- as(mat, "TsparseMatrix")
+  n_nz <- length(mat_t@x)
+  keep <- rbinom(n_nz, 1, 1 - p) == 1
+  mat_t@x[!keep] <- 0
+  drop0(as(mat_t, "CsparseMatrix"))
+}
+
+# =============================================================================
+# IDENTIFY UNIQUE FIT GROUPS (unchanged — sparsity was never part of this)
 # =============================================================================
 
 fit_cols <- c("separability", "n_cells", "batch", "dropout", "depth")
@@ -71,7 +103,6 @@ run_one_fit <- function(fk) {
   row1   <- rows[1, ]
   run_id <- as.integer(row1$run_id)
 
-  # Checkpointing — skip if all output files for this fit exist
   out_paths <- file.path(OUT_DIR,
     sprintf("symsim_run_%05d.rds", rows$run_id))
   if (all(file.exists(out_paths))) {
@@ -81,9 +112,6 @@ run_one_fit <- function(fk) {
 
   tryCatch({
 
-    # ----------------------------------------------------------------
-    # Parameters
-    # ----------------------------------------------------------------
     sep_p     <- symsim_separability[[row1$separability]]
     dropout_p <- symsim_dropout[[row1$dropout]]
     depth_p   <- symsim_depth[[row1$dropout]][[as.character(row1$depth)]]
@@ -94,9 +122,6 @@ run_one_fit <- function(fk) {
     evf_type <- sep_p$evf_type
     n_de_evf <- if (is_null) 8L else as.integer(sep_p$n_de_evf)
 
-    # ----------------------------------------------------------------
-    # Batch configuration
-    # ----------------------------------------------------------------
     if (row1$batch == "none") {
       batch_sizes <- n_cells
       batch_seeds <- run_id
@@ -111,9 +136,6 @@ run_one_fit <- function(fk) {
       batch_seeds <- c(run_id + 10000L, run_id + 20000L, run_id + 30000L)
     }
 
-    # ----------------------------------------------------------------
-    # Simulate each batch and concatenate
-    # ----------------------------------------------------------------
     all_counts <- vector("list", length(batch_sizes))
     all_pops   <- vector("list", length(batch_sizes))
     all_batch  <- vector("list", length(batch_sizes))
@@ -157,12 +179,25 @@ run_one_fit <- function(fk) {
       all_batch[[b]]  <- rep(b, bs)
     }
 
-    # Combine batches
-    cnts            <- as(do.call(cbind, all_counts), "dgCMatrix")
-    actual_sparsity <- round(sum(cnts == 0L) / length(cnts), 4)
-    n_total         <- ncol(cnts)
+    cnts_base       <- as(do.call(cbind, all_counts), "dgCMatrix")
+    n_total         <- ncol(cnts_base)
     true_group      <- unlist(all_pops)
     batch_id        <- as.integer(unlist(all_batch))
+
+    # ----------------------------------------------------------------
+    # Apply sparsity masking once per distinct sparsity_label in this group
+    # ----------------------------------------------------------------
+    sparsity_labels_here <- unique(as.character(rows$sparsity))
+    masked_cache <- list()
+    for (k in seq_along(sparsity_labels_here)) {
+      s_lbl <- sparsity_labels_here[k]
+      p_sp  <- mask_p_for_sparsity[[s_lbl]]
+      mask_seed <- run_id * 1000L + k
+      masked <- apply_mask(cnts_base, p_sp, mask_seed)
+      actual_sparsity <- round(sum(masked == 0L) / length(masked), 4)
+      masked_cache[[s_lbl]] <- list(cnts = masked, p_sparsity_mask = p_sp,
+                                     mask_seed = mask_seed, actual_sparsity = actual_sparsity)
+    }
 
     # ----------------------------------------------------------------
     # Save one file per grid row sharing this fit
@@ -174,12 +209,15 @@ run_one_fit <- function(fk) {
 
       if (file.exists(out_path)) next
 
+      mc   <- masked_cache[[as.character(row_j$sparsity)]]
+      cnts <- mc$cnts
+
       cell_meta_out <- data.frame(
         run_id            = as.integer(row_j$run_id),
         cell_id           = paste0("cell_", seq_len(n_total)),
         true_group        = true_group,
         batch_id          = batch_id,
-        achieved_sparsity = actual_sparsity,
+        achieved_sparsity = mc$actual_sparsity,
         stringsAsFactors  = FALSE
       )
 
@@ -200,7 +238,10 @@ run_one_fit <- function(fk) {
         n_de_evf        = n_de_evf,
         alpha_mean      = dropout_p$alpha_mean,
         depth_mean      = depth_p$depth_mean,
-        actual_sparsity = actual_sparsity,
+        sparsity_mask_p = mc$p_sparsity_mask,
+        combined_mask_p = mc$p_sparsity_mask,
+        mask_seed       = mc$mask_seed,
+        actual_sparsity = mc$actual_sparsity,
         fit_key         = fk
       )
 
@@ -212,9 +253,9 @@ run_one_fit <- function(fk) {
       )
     }
 
-    cat(sprintf("[fit %s] DONE  sparsity=%.4f  cells=%d  groups=%d  files=%d  %s\n",
-      fk, actual_sparsity, n_total, length(unique(true_group)),
-      nrow(rows), format(Sys.time(), "%H:%M:%S")))
+    cat(sprintf("[fit %s] DONE  cells=%d  groups=%d  files=%d  combos=%d  %s\n",
+      fk, n_total, length(unique(true_group)),
+      nrow(rows), length(sparsity_labels_here), format(Sys.time(), "%H:%M:%S")))
 
   }, error = function(e) {
     cat(sprintf("[fit %s] ERROR  %s\n", fk, conditionMessage(e)))

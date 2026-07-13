@@ -34,7 +34,7 @@ for (i in seq_len(nrow(rows))) {
     run_id = r$base_run_id, replicate = r$replicate, seed = r$seed,
     sparsity_label = as.character(r$sparsity), depth_label = "2000",
     dropout = "none", separability = "null", n_cells = 1000L, n_groups = 1L,
-    batch = "none", is_null_control = TRUE,
+    batch = "none", gene_strategy = "all", clipping = "none", is_null_control = TRUE,
     bcv_common = sparsity_p$bcv.common, lib_loc = depth_p$lib.loc,
     actual_sparsity = actual_sparsity
   )
