@@ -15,10 +15,17 @@ splatter_separability <- list(
   "high"   = list(nGroups = 5, de.prob = 0.50, de.facLoc = 1.0, de.facScale = 0.4)
 )
 
+# CORRECTED 2026-07 (Step 1.7 audit): low/high were inverted. Direct
+# empirical test confirmed dropout.mid is monotonic with dropout severity
+# (higher mid -> more sparsity, less depth): mid=1.0 -> sparsity 0.9706,
+# mid=3.0 -> sparsity 0.9925. Original mapping had "low"=3.0 (actually more
+# severe) and "high"=1.0 (actually less severe). Existing data + param_grid
+# relabeled to match; this mapping fixed for consistency on any future
+# regeneration. See simulate_splatter.R correction note.
 splatter_dropout <- list(
   "none" = list(dropout.type = "none",       dropout.mid = NULL),
-  "low"  = list(dropout.type = "experiment", dropout.mid = 3.0),
-  "high" = list(dropout.type = "experiment", dropout.mid = 1.0)
+  "low"  = list(dropout.type = "experiment", dropout.mid = 1.0),
+  "high" = list(dropout.type = "experiment", dropout.mid = 3.0)
 )
 
 # NOTE: Sparsity is controlled via bcv.common (biological coefficient of variation),

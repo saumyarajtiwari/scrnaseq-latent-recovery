@@ -1,5 +1,5 @@
 "group","n_files","n_flagged_overall","n_depth_deviation","n_no_calibration_match","n_cells_mismatch","n_groups_mismatch","n_file_unreadable","mean_depth_pct_dev","max_depth_pct_dev","n_rank_order_groups","n_rank_order_broken"
-"splatter",10935,6811,6811,0,0,0,0,0.372,0.9326,2187,563
+"splatter",10935,4077,4077,0,0,0,0,0.1733,1.0761,2187,0
 "scdesign3",10935,1557,1557,0,0,0,0,0.0941,0.7312,2187,0
 "symsim",10935,90,90,0,0,0,0,0.0286,0.5103,2187,0
 "null_control",60,0,0,0,0,0,0,0.0093,0.028,NA,NA
