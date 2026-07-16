@@ -7,3 +7,7 @@ data/simulated/**/*.rds
 data/real/**/*.rds
 logs/
 vendor/
+
+# Ground-truth extraction artifacts are small (~80KB/file) and critical for
+# reproducibility -- tracked despite the broad .rds exclusion above
+!data/simulated/ground_truth/**/*.rds
