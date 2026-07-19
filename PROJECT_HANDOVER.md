@@ -253,3 +253,146 @@ Every remaining flag has a documented, principled explanation (real dropout/mask
 **Reproducibility manifest:** every simulated file's `run_params` now contains the *actual* generative parameters used, not just labels — `bcv_common`/`lib_loc` (Splatter); `family_use`/`dropout_pi`/`sparsity_mask_p`/`combined_mask_p`/`mask_seed` (scDesign3); `alpha_mean`/`depth_mean`/`sparsity_mask_p`/`combined_mask_p`/`mask_seed` (SymSim). Any file can be fully reconstructed from its `run_id` alone, given the corresponding script version.
 
 **Git state:** scDesign3 + SymSim corrections committed and pushed (`ca2f4c4`, "Step 1.7: Fix sparsity/dropout-inert bugs in scDesign3 and SymSim, add output validation"). Splatter's dropout-label-inversion fix, dropout-aware depth calibration, rank-order tolerance fix, and this handover document are pending the next commit.
+
+## Step 1.8 — Ground-Truth Extraction (Splatter, scDesign3, SymSim)
+
+**Purpose:** Step 1.8's original task calls for storing "ground-truth cell
+labels, loading vectors, true subspace basis" alongside each simulated
+dataset in the eventual unified SingleCellExperiment format. None of Steps
+1.3-1.7's production files contain this — Step 1.3's lightweight-save
+decision (counts + cell_meta + run_params only) explicitly deferred it as
+"not needed until Step 3." This step fulfills that deferred requirement.
+
+**Definition adopted:** "true subspace" is defined uniformly across all
+three simulators as the linear span of noise-free group-mean expression
+vectors (a (G-1)-dimensional signal subspace per run/fit-key) — standard
+in spiked-covariance/signal-subspace recovery literature. Extraction
+source differs by simulator, since each has a structurally different
+native ground-truth layer:
+
+- **Splatter:** `TrueCounts` assay (pre-dropout). Validated: gene-level
+  DEFacGroup values track TrueCounts/CellMeans group ratios directionally
+  on 5 known DE genes; BatchCellMeans (0.0000 CV across groups) ruled out
+  as a false-positive candidate.
+- **SymSim:** `SimulateTrueCounts()` output, pre-`True2ObservedCounts()`.
+  Validated: CV responds correctly to n_de_evf across 3 seeds; true
+  population labels beat 50 label permutations (p<0.02); permutation-null
+  floor (~0.21) matches the n_de_evf=0 floor independently.
+- **scDesign3:** real PBMC3k reference group means (same subsampling/
+  depth-scaling seed as production), since `return_model=FALSE` precludes
+  direct access to the fitted NB-GLM. Explicitly a faithful proxy for the
+  fit's target, not a readout of the fit itself. Validated via known PBMC
+  marker gene localization (LYZ->Monocyte, MS4A1->B_cell, NKG7->NK/CD8_T,
+  CD3D->CD4_T/CD8_T) and exact match of per-cell-type n to real reference
+  population sizes.
+
+**Extraction results:**
+- scDesign3: 82/82 fit-keys extracted, 0 failures.
+- SymSim: 244/244 fit-keys extracted, 0 failures. Every fit-key's
+  population assignment validated by EXACT match against already-verified
+  production cell_meta$true_group (all 244, not sampled).
+- Splatter: 10,935 main-grid run_ids processed. 10,929 written, 6 excluded
+  (see below). No fit-key batching exists for Splatter (seed=run_id
+  unique per row) — required one splatSimulate() call per row.
+
+**Extraction script design:** rows with a confirmed mismatch against
+already-verified production are NOT written — logged to
+splatter_unresolved.csv instead. Avoids ever storing a ground-truth file
+built from a different random draw than its paired production count
+matrix under a plausible-looking but wrong filename.
+
+**Two SEPARATE Splatter data-quality findings** (both discovered via
+100%-of-grid validation built into the extraction script itself, not
+sampling):
+
+1. **run_id 4, 5, 9, 3289 (0.037% of main grid) — ROOT CAUSE CONFIRMED,
+   FIXED.** These 4 files were the entire output of the very first
+   invocation of simulate_splatter.R (2026-06-23 11:39:07-21), under
+   BiocParallel's MulticoreParam, before it was replaced with
+   parallel::mclapply the same day (commit eaa5bf87, 16:10:03) due to a
+   parallel-backend defect. BiocParallel manages its own per-worker RNG
+   substreams, plausibly overriding/interacting with the seed argument
+   passed into splatSimulate(). All 124 other files sharing the same
+   early mtime window, including same-sparsity-label rows generated
+   under the corrected engine, were confirmed correct via direct
+   regen-and-compare — isolating the abandoned first invocation, not the
+   sprintf-key-lookup fix initially (and incorrectly) suspected.
+   FIX: regenerated via current simulate_splatter.R logic; old files
+   backed up (not deleted) locally; verified via a THIRD independent
+   splatSimulate() call reproducing the fix exactly, for all 4 run_ids.
+
+2. **run_id 3284, 3285, 6565, 6569, 9849, 9850 (0.055% of main grid) —
+   ROOT CAUSE NOT RESOLVED. Safely excluded from ground truth (not
+   written; logged in splatter_unresolved.csv).** Discovered during the
+   real 10,935-row extraction run; confirmed disjoint from the
+   abandoned-invocation window above. All 6 share sparsity in {0.95,
+   0.98} and n_cells=200 (both necessary, neither individually
+   sufficient — 1,458 rows share both conditions in the full grid, only
+   these 6 fail). Exhaustive elimination, each ruled out via direct
+   evidence:
+     - Relabel-metadata inconsistency: ruled out (file run_params fully
+       consistent with param_grid.csv, every field)
+     - Dropout value/type: ruled out (neither candidate dropout.mid
+       value reproduces the file; mechanistically dropout cannot affect
+       group assignment, which happens earlier in Splatter's RNG stream)
+     - Gross file corruption: ruled out (correct dimensions, valid
+       cell_meta, plausible achieved_sparsity)
+     - gene_strategy as a real cause: ruled out (proven invisible to
+       splatSimulate() — never appears in its argument list; the
+       apparent 100% correlation is explained as gene_strategy being a
+       label for one of 9 seed-slots at a fixed 1,215-row offset within
+       each real parameter combination, not a causal variable)
+     - Session/fork RNG carryover: ruled out both empirically
+       (sequential-context test still mismatched) and mechanistically
+       (Splatter v1.26.0 uses withr::with_seed(), confirmed via source
+       inspection — designed to fully save/restore RNG state around the
+       simulation, independent of prior session history)
+     - Separability parameters (de.prob/de.facLoc/de.facScale) silently
+       changed over time: ruled out (git history of param_dict.R shows
+       these values unedited since the very first commit, 2026-06-23)
+     - Batch factor values silently changed: ruled out (git history of
+       simulate_splatter.R shows unchanged values across the entire
+       window these 6 rows could have been generated in)
+     - Package/R version drift: ruled out (renv.lock history shows
+       splatter 1.26.0, Matrix 1.6-5, SingleCellExperiment 1.24.0, R
+       4.3.3 completely static across the entire project)
+
+   Every parameter feeding splatSimulate(), and the seed-to-output
+   mechanism itself, has been individually verified. Remaining
+   possibility would require tracing Splatter's own internal C/R
+   implementation for a non-obvious edge case at extreme bcv.common
+   (2.00/3.00) + small n_cells (200) — assessed as disproportionate given
+   confirmed scope (10/10935 = 0.09% of the full main grid, already
+   safely excluded, no evidence of broader extent since 100% of the grid
+   has been checked).
+
+**Total accounted for:** 10,929 (written) + 6 (excluded, documented) =
+10,935 (100% of Splatter's main grid).
+
+**Design decisions for the unified schema (informing the still-pending
+SCE-conversion step):**
+- Ground truth stored as raw genes x n_groups true-signal matrix, not a
+  pre-derived orthonormal basis (basis extraction is a Step 4 concern).
+- Null-control rows get a genes x 1 matrix, not NULL — handled by the
+  same code path as every other row, not a special case.
+- SingleCellExperiment (R) chosen over AnnData (Python): zero new
+  cross-language dependency, no new failure surface, first-class
+  Bioconductor standard.
+
+**Open items carried into the SCE-conversion step (not yet started):**
+- SymSim's raw counts matrices have no native gene rownames/colnames
+  (ground-truth files use an explicit Gene1..Gene2000 convention;
+  production files need the same applied at conversion time).
+- scDesign3/SymSim ground truth is stored per-fit-key (82/244 files), not
+  per-run_id (10,935 each) — SCE assembly needs a fit-key-to-run_id
+  lookup to attach the correct ground truth to every individual file.
+- Unreconciled discrepancy: prior project record references "45
+  null-control matrices (5 sparsity x 3 simulators x 3 replicates)" as a
+  separate artifact, but param_grid.csv's own separability=="null" rows
+  number only 5 (not 15) per simulator. Needs a direct look before
+  finalizing null-control handling in the unified schema — not yet
+  investigated.
+- Production data footprint (43.6GB: 24G Splatter + 3.6G scDesign3 + 16G
+  SymSim) vs. available disk (NTFS: 28GB free as of this writing) needs a
+  deliberate space plan before the real SCE-conversion write step, which
+  was not yet benchmarked for time or space at close of this step.
