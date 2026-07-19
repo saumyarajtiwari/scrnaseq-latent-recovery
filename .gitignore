@@ -11,3 +11,7 @@ vendor/
 # Ground-truth extraction artifacts are small (~80KB/file) and critical for
 # reproducibility -- tracked despite the broad .rds exclusion above
 !data/simulated/ground_truth/**/*.rds
+
+# Small (~tens of MB), permanent evidence sample of the Step 1.7 bug --
+# tracked despite the broad .rds exclusion above
+!data/simulated/step1_7_bug_evidence_sample/**
