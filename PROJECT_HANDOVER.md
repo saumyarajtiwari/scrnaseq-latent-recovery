@@ -396,3 +396,55 @@ SCE-conversion step):**
   SymSim) vs. available disk (NTFS: 28GB free as of this writing) needs a
   deliberate space plan before the real SCE-conversion write step, which
   was not yet benchmarked for time or space at close of this step.
+
+## EDA Checkpoint 1 (1.1–1.4) — Complete (2026-07-24)
+
+**1.1 — Sparsity verification:** Confirmed sparsity_label is a documented ordinal
+severity rank (not absolute target) across all three simulators — masking/BCV
+mechanisms are calibrated once, not depth-conditional, per explicit design notes
+in param_dict.R and simulate_scdesign3.R. 68.4% of rows deviate from literal
+label by >0.03, entirely expected under this design. Plot:
+results/figures/eda_1_1_observed_vs_target_sparsity.png.
+
+**1.2 — Depth verification:** Splatter and SymSim depth calibration confirmed
+accurate (ratio ≈0.95–1.02) at minimal-masking baseline. scDesign3 shows a
+genuine, isolated ~18% under-delivery at depth_label="500" only (ratio 0.819),
+not explained by masking. Flagged as an open item, not yet investigated further
+(deferred per explicit user instruction — to be revisited later, not blocking
+Step 2). Plots: results/figures/eda_1_2_depth_full_distribution.png,
+eda_1_2_depth_baseline_calibration.png.
+
+**1.3 — DE magnitude vs. separability:** Computed pairwise |log2FC| between
+true_group_means per file. Overlap coefficients (density overlap, 0=separated,
+1=identical) between adjacent separability levels: SymSim best-separated
+(low/med=0.158, med/high=0.458); scDesign3 (0.496, 0.652) and Splatter (0.757,
+0.654) show substantial to heavy overlap. Plot:
+results/figures/eda_1_3_lfc_distributions.png.
+
+**1.4 — Summary pass/fail table:** Built results/tables/eda_1_4_pass_fail_table.csv,
+one row per (simulator, parameter combination) (32,814 rows). Peer-group
+z-score flagging (>3SD within matched simulator×depth×sparsity×dropout group,
+the scientifically defensible test given 1.1's ordinal-label finding — literal-
+label tolerance would have falsely flagged 68% of the grid):
+  - Sparsity outliers: 59 (0.18%)
+  - Depth outliers: 296 (0.90%)
+  - Separability rank-inconsistency: 7,543 (~23%), concentrated in scDesign3
+    (3,735) and Splatter (3,738) vs. SymSim (333).
+
+**Resolution on separability overlap:** Investigated root cause — confirmed no
+calibration script for any simulator ever empirically validated separability
+parameters against actual DE-magnitude output (unlike sparsity/dropout, which
+went through calibrate_*_bcv2.R-style empirical sweeps). However, cross-checked
+against the original project design document, which explicitly states (re:
+SymSim's n_de_evf): "These are not calibrated to produce specific Grassmannian
+distances — they produce qualitatively low/medium/high separation which will be
+characterized empirically in Steps 3–4." The document's calibration_required
+list also never includes separability for any simulator — only sparsity and
+depth. Conclusion: this is intentional, documented deferral, not an oversight.
+**Decision: no pre-grid separability recalibration performed.** Logged as a
+Step 3–4 watch-item — actual separability characterization will occur via
+Grassmannian distance / subspace recovery score against real preprocessing
+output, the metric this project was designed to use for this question, not the
+raw-LFC proxy used here for a first-pass EDA check.
+
+**EDA Checkpoint 1 status: CLOSED.** Proceeding to Step 2.
