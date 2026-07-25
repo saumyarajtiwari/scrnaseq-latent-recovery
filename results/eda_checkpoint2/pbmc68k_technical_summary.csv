@@ -1,0 +1,2 @@
+"dataset_name","n_cells","n_genes","overall_sparsity_pct","mean_lib_size","median_lib_size","lib_size_variance","lib_size_cv","mean_zero_inflation_index","median_zero_inflation_index"
+"pbmc68k",65690,20387,97.28,1399.72,1309,298664.73,0.3904,0.0028,2e-04

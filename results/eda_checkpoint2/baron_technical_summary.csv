@@ -1,0 +1,2 @@
+"dataset_name","n_cells","n_genes","overall_sparsity_pct","mean_lib_size","median_lib_size","lib_size_variance","lib_size_cv","mean_zero_inflation_index","median_zero_inflation_index"
+"baron",8569,17499,89.22,5828.23,5075,11685369.88,0.5865,0.0277,0.0069

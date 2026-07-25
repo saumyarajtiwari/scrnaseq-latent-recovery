@@ -1,0 +1,2 @@
+"dataset_name","n_cells","n_genes","overall_sparsity_pct","mean_lib_size","median_lib_size","lib_size_variance","lib_size_cv","mean_zero_inflation_index","median_zero_inflation_index"
+"tasic2018",20562,42865,78.2,1739370.87,1758781,137910709851.25,0.2135,0.2414,0.0934

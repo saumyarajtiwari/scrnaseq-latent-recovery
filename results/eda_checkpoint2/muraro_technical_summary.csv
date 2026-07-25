@@ -1,0 +1,2 @@
+"dataset_name","n_cells","n_genes","overall_sparsity_pct","mean_lib_size","median_lib_size","lib_size_variance","lib_size_cv","mean_zero_inflation_index","median_zero_inflation_index"
+"muraro",2403,18197,72.01,22271.89,18154.76,295378002.6,0.7717,0.0726,0.0402
