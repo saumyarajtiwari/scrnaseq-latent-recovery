@@ -1,0 +1,7 @@
+"dataset_name","n_cells","n_genes","n_cell_types","n_cells_unlabeled","fully_labeled","n_batches","approx_sparsity","file_path"
+"pbmc68k",65690,20387,0,65690,FALSE,1,0.9728,"/mnt/extra/scrnaseq-data/real/pbmc68k/pbmc68k_harmonized.rds"
+"muraro",2403,18197,10,277,FALSE,4,0.7201,"/mnt/extra/scrnaseq-data/real/muraro/muraro_harmonized.rds"
+"baron",8569,17499,14,0,TRUE,4,0.8922,"/mnt/extra/scrnaseq-data/real/baron/baron_harmonized.rds"
+"segerstolpe",2929,23238,14,720,FALSE,10,0.7708,"/mnt/extra/scrnaseq-data/real/segerstolpe/segerstolpe_harmonized.rds"
+"ts_lung",61292,56139,34,0,TRUE,4,0.9297,"/mnt/extra/scrnaseq-data/real/tabula_sapiens_lung/tabula_sapiens_lung_harmonized.rds"
+"tasic2018",20562,42865,24,0,TRUE,341,0.782,"/mnt/extra/scrnaseq-data/real/tasic2018/tasic2018_harmonized.rds"
