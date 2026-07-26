@@ -18,3 +18,4 @@ vendor/
 data/processed/**/*.rds
 !logs/step3_1_progress.csv
 !logs/step3_2_progress.csv
+!logs/step3_3_progress.csv

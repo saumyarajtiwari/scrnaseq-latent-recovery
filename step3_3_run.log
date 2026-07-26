@@ -1,0 +1,75 @@
+nohup: ignoring input
+Splatter exclusion manifest loaded: 6 files
+Splatter: excluded 0 files per manifest
+Total files to process: 32820 
+
+=== Processing scdesign3 ( 10940 files) ===
+  [progress] processed: 500 / 32820  free disk (GB): 191.19 
+  [progress] processed: 1000 / 32820  free disk (GB): 191.07 
+  [progress] processed: 1500 / 32820  free disk (GB): 190.94 
+  [progress] processed: 2000 / 32820  free disk (GB): 190.8 
+  [progress] processed: 2500 / 32820  free disk (GB): 190.67 
+  [progress] processed: 3000 / 32820  free disk (GB): 190.56 
+  [progress] processed: 3500 / 32820  free disk (GB): 190.44 
+  [progress] processed: 4000 / 32820  free disk (GB): 190.3 
+  [progress] processed: 4500 / 32820  free disk (GB): 190.16 
+  [progress] processed: 5000 / 32820  free disk (GB): 190.05 
+  [progress] processed: 5500 / 32820  free disk (GB): 189.93 
+  [progress] processed: 6000 / 32820  free disk (GB): 189.8 
+  [progress] processed: 6500 / 32820  free disk (GB): 189.65 
+  [progress] processed: 7000 / 32820  free disk (GB): 189.54 
+  [progress] processed: 7500 / 32820  free disk (GB): 189.42 
+  [progress] processed: 8000 / 32820  free disk (GB): 189.29 
+  [progress] processed: 8500 / 32820  free disk (GB): 189.14 
+  [progress] processed: 9000 / 32820  free disk (GB): 189.03 
+  [progress] processed: 9500 / 32820  free disk (GB): 188.91 
+  [progress] processed: 10000 / 32820  free disk (GB): 188.78 
+  [progress] processed: 10500 / 32820  free disk (GB): 188.64 
+=== Processing splatter ( 10934 files) ===
+  [progress] processed: 11000 / 32820  free disk (GB): 188.51 
+  [progress] processed: 11500 / 32820  free disk (GB): 188.31 
+  [progress] processed: 12000 / 32820  free disk (GB): 188.09 
+  [progress] processed: 12500 / 32820  free disk (GB): 187.81 
+  [progress] processed: 13000 / 32820  free disk (GB): 187.54 
+  [progress] processed: 13500 / 32820  free disk (GB): 187.34 
+  [progress] processed: 14000 / 32820  free disk (GB): 187.13 
+  [progress] processed: 14500 / 32820  free disk (GB): 186.87 
+  [progress] processed: 15000 / 32820  free disk (GB): 186.57 
+  [progress] processed: 15500 / 32820  free disk (GB): 186.37 
+  [progress] processed: 16000 / 32820  free disk (GB): 186.16 
+  [progress] processed: 16500 / 32820  free disk (GB): 185.92 
+  [progress] processed: 17000 / 32820  free disk (GB): 185.62 
+  [progress] processed: 17500 / 32820  free disk (GB): 185.4 
+  [progress] processed: 18000 / 32820  free disk (GB): 185.19 
+  [progress] processed: 18500 / 32820  free disk (GB): 184.98 
+  [progress] processed: 19000 / 32820  free disk (GB): 184.68 
+  [progress] processed: 19500 / 32820  free disk (GB): 184.43 
+  [progress] processed: 20000 / 32820  free disk (GB): 184.23 
+  [progress] processed: 20500 / 32820  free disk (GB): 184.01 
+  [progress] processed: 21000 / 32820  free disk (GB): 183.73 
+  [progress] processed: 21500 / 32820  free disk (GB): 183.46 
+=== Processing symsim ( 10940 files) ===
+  [progress] processed: 22000 / 32820  free disk (GB): 183.26 
+  [progress] processed: 22500 / 32820  free disk (GB): 183.05 
+  [progress] processed: 23000 / 32820  free disk (GB): 182.8 
+  [progress] processed: 23500 / 32820  free disk (GB): 182.5 
+  [progress] processed: 24000 / 32820  free disk (GB): 182.3 
+  [progress] processed: 24500 / 32820  free disk (GB): 182.1 
+  [progress] processed: 25000 / 32820  free disk (GB): 181.87 
+  [progress] processed: 25500 / 32820  free disk (GB): 181.57 
+  [progress] processed: 26000 / 32820  free disk (GB): 181.35 
+  [progress] processed: 26500 / 32820  free disk (GB): 181.14 
+  [progress] processed: 27000 / 32820  free disk (GB): 180.93 
+  [progress] processed: 27500 / 32820  free disk (GB): 180.64 
+  [progress] processed: 28000 / 32820  free disk (GB): 180.39 
+  [progress] processed: 28500 / 32820  free disk (GB): 180.19 
+  [progress] processed: 29000 / 32820  free disk (GB): 179.98 
+  [progress] processed: 29500 / 32820  free disk (GB): 179.71 
+  [progress] processed: 30000 / 32820  free disk (GB): 179.43 
+  [progress] processed: 30500 / 32820  free disk (GB): 179.24 
+  [progress] processed: 31000 / 32820  free disk (GB): 179.03 
+  [progress] processed: 31500 / 32820  free disk (GB): 178.78 
+  [progress] processed: 32000 / 32820  free disk (GB): 178.48 
+  [progress] processed: 32500 / 32820  free disk (GB): 178.28 
+
+=== STEP 3.3 FULL RUN COMPLETE ===
