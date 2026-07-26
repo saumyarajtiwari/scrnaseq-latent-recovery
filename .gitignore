@@ -5,7 +5,7 @@ renv/library/
 renv/staging/
 data/simulated/**/*.rds
 data/real/**/*.rds
-logs/
+logs/*
 vendor/
 
 # Ground-truth extraction artifacts are small (~80KB/file) and critical for
@@ -15,3 +15,5 @@ vendor/
 # Small (~tens of MB), permanent evidence sample of the Step 1.7 bug --
 # tracked despite the broad .rds exclusion above
 !data/simulated/step1_7_bug_evidence_sample/**
+data/processed/**/*.rds
+!logs/step3_1_progress.csv
