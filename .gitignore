@@ -17,3 +17,4 @@ vendor/
 !data/simulated/step1_7_bug_evidence_sample/**
 data/processed/**/*.rds
 !logs/step3_1_progress.csv
+!logs/step3_2_progress.csv
