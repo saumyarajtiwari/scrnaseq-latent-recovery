@@ -20,3 +20,6 @@ data/processed/**/*.rds
 !logs/step3_2_progress.csv
 !logs/step3_3_progress.csv
 !logs/step3_4_progress.csv
+!logs/step3_5_progress.csv
+!logs/step3_5_rescue_progress.csv
+!logs/step3_5_rescue2_progress.csv
