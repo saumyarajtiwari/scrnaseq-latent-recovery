@@ -1,0 +1,28 @@
+nohup: ignoring input
+Splatter exclusion manifest loaded: 6 files
+Real-data exclusion manifest loaded: 2 files: pbmc68k, tabula_sapiens_lung 
+Splatter: excluded 0 files per manifest
+Real files to process: baron, muraro, segerstolpe, tasic2018 
+Total files to process: 32818 
+
+Real: baron - skipped_existing 
+Real: muraro - skipped_existing 
+Real: segerstolpe - done 
+Real: tasic2018 - done 
+Warning message:
+In glmpca(as.matrix(counts_mat), L = nv, fam = "nb", ctl = ctl_list) :
+  Reached maximum number of iterations (25) without numerical convergence. Results may be unreliable.
+=== Processing scdesign3 ( 10940 files ) ===
+  [progress] processed: 104 / 32818  free disk (GB): 151.66 
+Error in sendMaster(try(eval(expr, env), silent = TRUE), FALSE) : 
+  ignoring SIGPIPE signal
+Calls: mclapply -> mcparallel -> sendMaster
+In addition: Warning message:
+In glmpca(as.matrix(counts_mat), L = nv, fam = "nb", ctl = ctl_list) :
+  Reached maximum number of iterations (25) without numerical convergence. Results may be unreliable.
+Error in sendMaster(try(eval(expr, env), silent = TRUE), FALSE) : 
+  ignoring SIGPIPE signal
+Calls: mclapply -> mcparallel -> sendMaster
+In addition: Warning message:
+In glmpca(as.matrix(counts_mat), L = nv, fam = "nb", ctl = ctl_list) :
+  Reached maximum number of iterations (25) without numerical convergence. Results may be unreliable.

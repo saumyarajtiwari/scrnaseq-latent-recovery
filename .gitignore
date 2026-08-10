@@ -23,3 +23,5 @@ data/processed/**/*.rds
 !logs/step3_5_progress.csv
 !logs/step3_5_rescue_progress.csv
 !logs/step3_5_rescue2_progress.csv
+venv_glmpca_gpu/
+!logs/step3_6_progress.csv
