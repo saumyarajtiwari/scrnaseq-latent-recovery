@@ -27,3 +27,4 @@ venv_glmpca_gpu/
 !logs/step3_6_progress.csv
 !logs/loadings_backfill_progress.csv
 !logs/raw_recovery_progress.csv
+!logs/step3_5_v2_progress.csv
