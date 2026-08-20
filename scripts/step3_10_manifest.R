@@ -131,14 +131,20 @@ log_msg("=== INTEGRITY SCAN COMPLETE ===")
 
 manifest <- read.csv(MANIFEST_CSV, stringsAsFactors = FALSE)
 
+real_inv_renamed <- real_inv
+names(real_inv_renamed)[names(real_inv_renamed) == "file_path"] <- "source_sce_file_path"
+real_inv_renamed$dataset_name[real_inv_renamed$dataset_name == "ts_lung"] <- "tabula_sapiens_lung"
+
 sim_rows <- manifest[manifest$data_type == "simulated", ]
 sim_joined <- merge(sim_rows, param_grid, by = "run_id", all.x = TRUE)
 
 real_rows <- manifest[manifest$data_type == "real", ]
-real_joined <- merge(real_rows, real_inv, by.x = "source", by.y = "dataset_name", all.x = TRUE)
+real_joined <- merge(real_rows, real_inv_renamed, by.x = "source", by.y = "dataset_name", all.x = TRUE)
 
-common_cols <- intersect(names(sim_joined), names(real_joined))
-final_manifest <- rbind(sim_joined[, common_cols], real_joined[, common_cols])
+all_cols <- union(names(sim_joined), names(real_joined))
+for (col in setdiff(all_cols, names(sim_joined))) sim_joined[[col]] <- NA
+for (col in setdiff(all_cols, names(real_joined))) real_joined[[col]] <- NA
+final_manifest <- rbind(sim_joined[, all_cols], real_joined[, all_cols])
 
 FINAL_OUT <- file.path(OUT_DIR, "embedding_manifest.csv")
 write.csv(final_manifest, FINAL_OUT, row.names = FALSE)
