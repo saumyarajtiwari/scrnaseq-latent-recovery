@@ -1,0 +1,12 @@
+nohup: ignoring input
+2026-08-23 00:30:32 - PHASE 1 (simulated): total groups: 32799 
+2026-08-23 00:30:32 - Resuming simulated phase: 33 of 33 batches already done 
+2026-08-23 00:30:32 - === PHASE 1 (simulated) COMPLETE === 
+2026-08-23 00:30:32 - PHASE 2 (real): total datasets: 6 
+2026-08-23 00:30:32 - Resuming real phase: 4 of 6 datasets already done 
+2026-08-23 00:36:45 - [REAL] tabula_sapiens_lung done (6 rows). Errors: 0. 
+2026-08-23 00:36:45 - [REAL] tasic2018 done (6 rows). Errors: 0. 
+There were 50 or more warnings (use warnings() to see the first 50)
+2026-08-23 00:36:45 - === PHASE 2 (real) COMPLETE === 
+2026-08-23 00:36:45 - === STEP 4.4-4.6 FULLY COMPLETE === 
+2026-08-23 00:36:45 - Total rows: 196830 | Total errors: 17 

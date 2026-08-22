@@ -1,0 +1,6 @@
+nohup: ignoring input
+2026-08-23 00:18:29 - PHASE 1 (simulated): total groups: 32799 
+2026-08-23 00:18:29 - Resuming simulated phase: 33 of 33 batches already done 
+2026-08-23 00:18:29 - === PHASE 1 (simulated) COMPLETE === 
+2026-08-23 00:18:29 - PHASE 2 (real): total datasets: 6 
+2026-08-23 00:18:29 - Resuming real phase: 4 of 6 datasets already done 
