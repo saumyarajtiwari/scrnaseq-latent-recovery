@@ -28,3 +28,9 @@ venv_glmpca_gpu/
 !logs/loadings_backfill_progress.csv
 !logs/raw_recovery_progress.csv
 !logs/step3_5_v2_progress.csv
+
+# Raw verbose stdout redirects (e.g. `Rscript foo.R > run.log 2>&1`) run
+# from the project root rather than into logs/ -- their useful content is
+# already distilled into the tracked logs/step*_progress.csv summaries.
+# Historical instances removed in the same commit that added this rule.
+*.log
