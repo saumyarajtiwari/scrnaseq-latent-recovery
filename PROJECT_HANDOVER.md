@@ -749,9 +749,9 @@ differentiated lineages with no comparable single trajectory). The
 standard R package for this, `destiny`, wouldn't install — a broken
 dependency chain going several packages deep — so diffusion pseudotime
 was implemented directly from the published method instead, using only
-packages that were already available. Half of the eighteen
-dataset-method combinations tested flagged as over-smoothed, and GLM-PCA
-was the worst performer across all three datasets, including the single
+packages that were already available. Ten of the eighteen
+dataset-method combinations tested (55.6%) flagged as over-smoothed, and
+GLM-PCA was the worst performer across all three datasets, including the single
 lowest correlation score seen anywhere in this whole step.
 
 For simulated data, the first design that got built turned out to be

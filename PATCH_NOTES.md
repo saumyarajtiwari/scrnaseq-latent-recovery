@@ -775,3 +775,115 @@ across 3 files — far too small for a genuine full-document rewrite) rather
 than assuming the commit succeeded. Corrected in the following commit
 (`27ad579`) after verifying the actual file content and line count
 matched expectation before committing.
+
+---
+
+## Step 6.2 conversion script — invalid `return()` inside non-function `tryCatch()`
+
+**Affected file:** `scripts/step6_2_convert_null_control_replicates.R`
+
+### Problem
+The skip-logic used `return(list(status = "skipped_existing", ...))` inside
+a `tryCatch({...})` expression block that is not itself inside a function
+definition — invalid in R, throws:
+    "no function to return from, jumping to top level"
+Never triggered on the script's first run (no output files existed yet, so
+the `file.exists()` branch was never taken). Triggered on every one of the
+30 files the second time the script ran, once outputs already existed —
+including 10 files that only appeared to "exist" because they were
+NTFS-corrupted husks still listed by the filesystem after an unclean
+shutdown (see the NTFS corruption entry below).
+
+### Fix
+Restructured with `if (...) {...} else {...}` so the `tryCatch`'s
+expression block's last-evaluated value becomes the returned value
+naturally, without an explicit `return()`.
+
+### Verification
+Re-run after the fix: 10 converted (the genuinely corrupted symsim files),
+20 correctly skipped (the already-good splatter/scdesign3 files), 0 errors.
+
+---
+
+## `/mnt/extra` — NTFS metadata corruption, 25 files lost
+
+**Affected:** 25 files under `data/processed/` (Step 6.3-6.8 output CSVs/RDS)
+and `data/simulated/sce/symsim/` (10 null-control replicate SCE files)
+
+### Problem
+`du`/`cat` on specific files returned "Input/output error." SMART health
+check on the underlying NVMe came back clean (overall-health PASSED, 0
+media/data integrity errors, 4% lifetime wear used) -- ruling out failing
+hardware. `/mnt/extra` was found mounted read-only; `journalctl` showed
+the actual cause: `ntfs-3g[814]: Trying to read non-allocated mft records
+(65781 > 65760): Illegal seek` -- NTFS Master File Table corruption. The
+drive's own SMART log recorded 58 unsafe shutdowns over its lifetime,
+consistent with this being caused by an unclean shutdown (NTFS-3G leaves
+the filesystem read-only automatically as a protective measure once it
+detects this class of corruption, rather than risk further damage).
+
+### Fix
+`sudo ntfsfix /dev/nvme0n1p4` after unmounting -- the standard Linux NTFS
+metadata-repair tool. Output confirmed the underlying cause directly:
+"Metadata kept in Windows cache, refused to mount" -- i.e. Windows Fast
+Startup had left the volume in a hibernated state Linux's NTFS driver
+correctly refused to touch until cleared. Repair completed successfully
+(MFT/MFTMirr compared OK, journal cleared); filesystem remounted `rw`.
+
+### Verification
+A full, clean sweep of both `/mnt/extra` (65,700 files) and `/mnt/extra2`
+(135,944 files) after the repair found zero further I/O errors anywhere,
+confirming the corruption was confined to exactly the 25 files already
+identified, not filesystem-wide. `ntfsfix` does not recover data that was
+already unreadable before the repair -- all 25 files needed regeneration,
+not just a remount. All 25 were downstream analysis outputs (Step 6.3-6.8
+results, null-control replicate conversions), regenerable from
+already-validated scripts; no raw simulated data, real data, or
+ground-truth extraction files were affected.
+
+### Regeneration
+`run_step6_rerun.sh` (new, chains the 8 remaining Step 6 sub-analyses
+sequentially, `nohup`+`disown` for terminal-independent execution) run
+unattended, ~12 hours (03:20-15:22 IST). Zero new errors beyond the
+already-documented 17 benign SCTransform exclusions (recurring identically
+for the fourth time across Steps 6.1, 6.4, 6.6, and this rerun). Two
+tasic2018 rows (pca_raw, pca_libnorm) were silently missing from the
+initial Step 6.6 rerun output (a worker-process crash uncaught by
+`tryCatch`, not a data problem -- confirmed via `embedding_manifest.csv`,
+which showed both source files present and `status="ok"` upstream); fixed
+via the script's existing `--retry_errors` mode on just those 2 rows
+rather than a full 196,822-row recompute. All regenerated statistics
+cross-checked line-by-line (not just aggregate rates) against the original
+results across all 8 sub-analyses -- exact or near-exact matches
+throughout (see the arithmetic-correction entry below for the one genuine
+discrepancy found, which was in the original documentation, not the data).
+
+**Recommended follow-up, not yet done:** disable Windows Fast Startup on
+this machine (if dual-boot) to prevent recurrence. The ~20GB of orphaned
+NTFS allocation this incident left behind (`df` still reports it as used;
+`du` cannot walk it) requires a full Windows `chkdsk /f` to reclaim --
+`ntfsfix` does not do this.
+
+---
+
+## `docs/step6_9_failure_mode_review.md` / `PROJECT_HANDOVER.md` — Step 6.5a arithmetic error
+
+**Affected files:** `docs/step6_9_failure_mode_review.md`, `PROJECT_HANDOVER.md`
+
+### Problem
+Both documents stated Step 6.5a's real-data over-smoothing branch flagged
+"9/18 (50%)" of dataset-method combinations. Discovered during the NTFS-
+recovery regeneration above, when the regenerated `step6_5a_pancreas_dpt.csv`
+was independently recounted directly (not narrated): muraro 6/6 TRUE +
+baron 3/6 (raw, sctransform_v2, glmpca) + segerstolpe 1/6 (glmpca) = 10,
+not 9. Every individual per-dataset, per-method claim in both documents
+(GLM-PCA flagged in all 3 datasets; SCTransform v2 in 2/3; Baron/GLM-PCA
+the single lowest correlation at rho~=0.177) was independently re-verified
+against the data and confirmed correct -- isolating the error to a simple
+counting mistake in the top-line summary figure, not a computation or
+methodology error.
+
+### Fix
+Both documents corrected to 10/18 (55.6%), with a note in
+`step6_9_failure_mode_review.md` documenting the correction and pointing
+here.

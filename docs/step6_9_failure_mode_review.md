@@ -23,7 +23,7 @@ on verified, not merely computed, machinery.
 | 2 | Cluster Collapse | **Retained** (strongly supported) | 163,844/196,830 (83.3%) triggered; 52/52 boundary alignment |
 | 3 | Phantom Clustering | **Retained** (scoped to null-controls) | 230/270 (85.2%) under calibrated threshold |
 | 4 | Variance Hijacking | **Retained** (real, but geometrically independent) | 67,341/196,830 (34.2%) flagged |
-| 5 | Over-Smoothing | **Retained** (asymmetric across its two branches) | Real data: 9/18 (50%); simulated: 0/31,640 |
+| 5 | Over-Smoothing | **Retained** (asymmetric across its two branches) | Real data: 10/18 (55.6%); simulated: 0/31,640 |
 | 6 | Neighborhood Collapse | **Retained** (with severity caveat) | 183,906/196,812 (93.5%); 52/52 boundary alignment |
 | 7 | Subspace Rotation Slippage | **Retained** (strongly supported) | PC1 slips in 172,934/196,794 (87.9%); 52/52 boundary alignment |
 
@@ -139,8 +139,10 @@ subspace-recovery failure in this study.**
 tested genuinely different things, on different data, and produced opposite
 results.
 
-**Branch A — real pancreas diffusion pseudotime:** 9/18 (50%) flagged
+**Branch A — real pancreas diffusion pseudotime:** 10/18 (55.6%) flagged
 (Spearman rho of DPT vs. a binary progenitor/mature reference < 0.6).
+*(Corrected 2026-09-03 from an original arithmetic error of 9/18 -- see
+PATCH_NOTES.md.)*
 GLM-PCA flagged in all 3 pancreas datasets, including the single lowest
 correlation in the entire study (Baron, rho=0.177) — consistent with
 GLM-PCA's poor showing in Phantom Clustering, Variance Hijacking, and
