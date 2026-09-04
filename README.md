@@ -7,56 +7,97 @@ under sparsity, depth, and dropout stress.
 
 Which scRNA-seq preprocessing methods preserve the true latent biological
 subspace, and at what technical thresholds do they fail? This is a
-latent-recovery study, not a benchmark: the central contribution is
-mapping *when and why* preprocessing distorts biological structure, using
-simulated (Splatter, scDesign3, SymSim) and real (PBMC 68k, Muraro, Baron,
+latent-recovery study, not a benchmark: the contribution is mapping *when
+and why* preprocessing distorts biological structure, using simulated
+(Splatter, scDesign3, SymSim) and real (PBMC 68k, Muraro, Baron,
 Segerstolpe, Tabula Sapiens Lung, Tasic 2018) datasets across six
-preprocessing/dimensionality-reduction methods.
+preprocessing/dimensionality-reduction methods, evaluated against seven
+distinct failure-mode categories.
+
+## How to run this
+
+See [`RUNNING.md`](RUNNING.md) for the complete, ordered execution guide
+from environment setup through the final failure-mode review.
 
 ## Repository structure
 
-This repository spans two phases of the project with different code
-organization conventions, kept as-is rather than retroactively unified,
-since both contain validated, already-published-on work:
+```
+code/
+├── 01_simulation/       Simulation generation and calibration (Steps 1.1-1.8)
+├── 02_real_data/        Real-data download, QC, and harmonization (Step 2)
+├── 03_preprocessing/    Six preprocessing/DR methods (Step 3)
+├── 04_metrics/          Subspace-recovery metric computation (Step 4)
+├── 05_phase_space/      Phase-space and failure-boundary analysis (Step 5)
+├── 06_failure_modes/    Seven-category failure-mode detection (Step 6.1-6.8)
+├── eda_checkpoint2/     Real-dataset technical characterization
+├── eda_checkpoint3/     Representative embedding visualization
+└── dev_history/         Preserved debug/pilot/rescue scripts (not part of
+                         the run sequence -- kept as provenance; see
+                         PATCH_NOTES.md for what each one was for)
 
-- **`R/`** — Steps 1–2 (simulation generation and calibration; real-data
-  download, QC, and harmonization) and early exploratory analysis
-  (`03_eda_checkpoint2/`). Organized into numbered subdirectories by
-  project phase. Includes intentionally-preserved buggy historical
-  versions (e.g. files suffixed `_v1_INVALID_sparsity_inert`) as
-  documented evidence of bugs found and fixed, not dead code.
-- **`scripts/`** — Steps 3–6 (preprocessing pipelines, subspace-recovery
-  metrics, phase-space/failure-boundary analysis, and the seven-category
-  failure-mode detection framework). Flat naming convention:
-  `step{N}_{substep}_{description}.R`.
-- **`docs/`** — Structured findings documents intended for direct reuse in
-  the manuscript (e.g. `step5_axis_findings.md`,
-  `step6_9_failure_mode_review.md`).
-- **`data/`** — `real/`, `simulated/`, and `processed/` subdirectories.
-  Raw and processed `.rds` data files are excluded from version control
-  (see `.gitignore`) and live on local/external storage; a small number of
-  critical, size-bounded artifacts (ground-truth extraction outputs, one
-  documented bug-evidence sample) are tracked as explicit exceptions.
-- **`results/tables/`** — Tracked CSV summary tables from exploratory data
-  analysis (Step 1).
-- **`figures/`** — Rendered phase-space heatmaps and other visual outputs
-  (Step 5.9).
-- **`logs/`** — Tracked per-file progress logs (`step3_*_progress.csv`,
-  etc.) for the largest batch-processing runs, kept as a processing
-  audit trail. Ad hoc verbose stdout redirects are excluded (`*.log`).
-- **`renv.lock`** — Pinned R package versions for reproducibility (`renv`).
-- **`PROJECT_HANDOVER.md`** — Structured, continuously-updated handover
-  record of project state, decisions, and open items.
-- **`PATCH_NOTES.md`** — Chronological log of fixes and corrections
-  applied across the project.
+data/
+├── simulated/
+│   ├── ground_truth/    True biological signal per simulated file (tracked)
+│   ├── param_grid.csv           The invariant 10,940-row parameter grid
+│   └── null_control_grid.csv    45-row null-control manifest
+└── real_data_inventory.csv
+
+results/
+├── step1_eda/           EDA Checkpoint 1 outputs (see note below)
+├── step2_eda/           EDA Checkpoint 2 outputs
+├── step3_eda/           EDA Checkpoint 3 outputs (best/worst/null panels)
+├── step4_metrics/       Subspace-recovery metric tables + embedding manifest
+├── step5_phase_space/   Critical-threshold tables and phase-space figures
+└── step6_failure_modes/ All nine failure-mode detection result tables
+
+docs/
+├── real_data_metadata_catalog.md
+├── step5_axis_findings.md              Clipping-inertness / batch anomaly findings
+├── step6_9_failure_mode_review.md      Final retention verdict, all 7 failure modes
+└── eda_checkpoint1_reconstruction_note.md   Documents a known code gap (see below)
+
+logs/                    Tracked per-run progress logs for the largest batch jobs
+```
+
+## A known, documented gap: EDA Checkpoint 1's script
+
+EDA Checkpoint 1's outputs are tracked (`results/step1_eda/`), but the exact
+code that produced them was run interactively and never saved as a
+standalone script. This is explained fully, including how to reconstruct it
+from already-verified logic reused elsewhere in the pipeline, in
+[`docs/eda_checkpoint1_reconstruction_note.md`](docs/eda_checkpoint1_reconstruction_note.md).
+No other pipeline stage has this gap.
 
 ## Methods
 
 Six preprocessing/dimensionality-reduction methods are compared: Raw PCA,
 Library-size-normalized PCA, Log-PCA, Shifted-Log-PCA,
-Pearson-residual/SCTransform-style PCA, and GLM-PCA.
+Pearson-residual/SCTransform-v2-style PCA, and GLM-PCA. Seven failure-mode
+categories are tested: Technical Separation, Cluster Collapse, Phantom
+Clustering, Variance Hijacking, Over-Smoothing, Neighborhood Collapse, and
+Subspace Rotation Slippage. See `docs/step6_9_failure_mode_review.md` for
+the final, evidence-reviewed verdict on each.
+
+## Reproducibility
+
+- R package versions are pinned via `renv.lock`; run `renv::restore()` before anything else.
+- Every stochastic script sets `set.seed(42)` at minimum; several use additional per-row deterministic seeds for reproducible-but-distinct random draws (documented in each script's header comments).
+- **Known reproducibility gaps**, documented rather than hidden: SymSim's installed source is pinned to a GitHub branch HEAD, not a fixed commit SHA; EDA Checkpoint 2's `irlba()` calls were run without a preceding `set.seed()`.
+
+## Data availability
+
+Raw and processed `.rds` data files (~340GB total) are not tracked in this
+repository — they live on local/external storage during active development.
+This repository tracks the small, essential, and non-regenerable artifacts:
+ground-truth extraction outputs, final result tables, and all code needed to
+regenerate everything else from the pinned parameter grid and fixed seeds.
+
+## License
+
+Code in this repository is released under the MIT License (see `LICENSE`).
 
 ## Status
 
 Steps 1 through 6 (through Step 6.9) are complete as of the latest commit.
-See `PROJECT_HANDOVER.md` for full current status and next steps.
+See `PROJECT_HANDOVER.md` for full narrative detail and `PATCH_NOTES.md` for
+a structured changelog of every bug found and fixed along the way.
