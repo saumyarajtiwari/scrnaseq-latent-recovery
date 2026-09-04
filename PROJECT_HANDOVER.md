@@ -402,6 +402,23 @@ against known differentially-expressed genes; SymSim's by confirming
 label recovery beat random permutations; scDesign3's against known PBMC
 marker genes localizing to the right cell types.
 
+**Ground-truth-linearity caveat.** This ground truth is, by construction,
+a *linear* subspace (the span of group-mean vectors). Grassmannian
+distance, subspace recovery score, and spectral recovery score are
+computed against it for all six preprocessing methods, including the two
+whose own transforms are nonlinear (SCTransform v2, GLM-PCA). For those
+two methods, recovery scores partly reflect representational mismatch
+between a nonlinear embedding and a linear reference, not purely how much
+biological signal survived preprocessing. This is the same reason Step
+6.5c excludes both methods from its ground-truth-ratio test outright.
+Rather than exclude them here too, Step 5.8's threshold table (and any
+script consuming it) now carries an explicit `method_family` column and
+a `ground_truth_caveat` field for nonlinear-method rows, so cross-method
+comparisons of these scores can be reported stratified (linear vs.
+nonlinear) rather than silently pooled. This should be stated explicitly
+in the manuscript wherever simulated-data recovery scores are compared
+across methods.
+
 scDesign3 and SymSim extracted cleanly — 82/82 and 244/244 fit-keys, zero
 failures. Splatter needed one call per row rather than per fit-key, since
 its seeding is unique per row, and turned up two separate, real data-

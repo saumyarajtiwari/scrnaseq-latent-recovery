@@ -6,6 +6,23 @@ METHOD_LABELS <- c(
   pca_glmpca = "GLM-PCA"
 )
 
+# Item 1 fix: ground-truth-linearity stratification (see PROJECT_HANDOVER.md
+# ground-truth definition section, and param_dict.R's method_family lookup).
+# subspace_recovery_score is computed against a LINEAR ground truth for every
+# method; for the two nonlinear methods this partly measures "how linear is
+# this method's recovered subspace," not purely biological recovery. No rows
+# are removed -- nonlinear-method rows just carry an explicit caveat flag so
+# they are never silently pooled with the four linear methods downstream.
+METHOD_FAMILY <- c(
+  pca_raw = "linear", pca_libnorm = "linear", pca_log = "linear",
+  pca_shiftedlog = "linear", pca_sctransform_v2 = "nonlinear", pca_glmpca = "nonlinear"
+)
+GT_LINEARITY_CAVEAT <- paste(
+  "subspace_recovery_score computed against a linearly-defined ground truth;",
+  "for this nonlinear method the score partly reflects representational",
+  "mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+)
+
 # Reliability findings from Step 5.2-5.7's investigation, baked in explicitly
 RELIABILITY <- list(
   sparsity     = c(scdesign3=TRUE,  splatter=TRUE, symsim=TRUE),
@@ -70,8 +87,10 @@ for (axis in names(NUMERIC_AXES)) {
       r <- interpolate_threshold(sel[[axis]], sel$subspace_recovery_score, scale = NUMERIC_AXES[[axis]])
       results[[length(results)+1]] <- data.frame(
         axis = axis, simulator = sim, method = method, method_label = METHOD_LABELS[method],
+        method_family = METHOD_FAMILY[method],
         threshold_value = r$value, threshold_status = r$status,
         reliable = RELIABILITY[[axis]][sim], reliability_note = RELIABILITY_NOTE[[axis]],
+        ground_truth_caveat = if (METHOD_FAMILY[method] == "nonlinear") GT_LINEARITY_CAVEAT else NA_character_,
         stringsAsFactors = FALSE
       )
     }
@@ -88,8 +107,10 @@ for (axis in names(CATEGORICAL_ORDER)) {
       status <- categorical_transition(CATEGORICAL_ORDER[[axis]], y)
       results[[length(results)+1]] <- data.frame(
         axis = axis, simulator = sim, method = method, method_label = METHOD_LABELS[method],
+        method_family = METHOD_FAMILY[method],
         threshold_value = NA, threshold_status = status,
         reliable = RELIABILITY[[axis]][sim], reliability_note = RELIABILITY_NOTE[[axis]],
+        ground_truth_caveat = if (METHOD_FAMILY[method] == "nonlinear") GT_LINEARITY_CAVEAT else NA_character_,
         stringsAsFactors = FALSE
       )
     }
@@ -106,3 +127,5 @@ cat("Reliable rows only, by axis:\n")
 print(table(final$axis[final$reliable]))
 cat("\nThreshold status distribution:\n")
 print(table(final$threshold_status))
+cat("\nRows carrying ground-truth-linearity caveat (nonlinear methods):",
+    sum(!is.na(final$ground_truth_caveat)), "of", nrow(final), "\n")
