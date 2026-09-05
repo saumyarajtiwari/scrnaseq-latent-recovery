@@ -549,6 +549,35 @@ in data/processed/step6_2_silhouette_null_calibration.csv; per-row
 output in data/processed/step6_2_cluster_collapse_calibrated.csv; script
 at code/06_failure_modes/step6_2_null_calibration.R.
 
+**Multiple-comparisons null calibration (Item 6), Variance Hijacking
+(Step 6.4).** This test already carried two threshold variants (literal:
+Spearman-only for both covariates; relative: Spearman for UMI, eta for
+batch, per the ordinality methodological note) -- neither was
+null-calibrated; both still used the fixed 0.7 spec threshold. Added a
+third, genuinely calibrated variant. Both statistics' null distributions
+depend only on (n_cells) for Spearman and (n_cells, n_categories) for
+eta -- not on embedding/group structure -- calibrated via permutation
+(200 draws), critically taking max(|.|) across the top 3 PCs in the null
+exactly as the flag logic does, so the calibration itself absorbs the
+top-3 multiple-comparisons structure. 12 Spearman buckets, 17 eta buckets
+(12 simulated + 5 real).
+
+Result, same direction as Step 6.1 (not Step 6.2): calibrated null 95th
+percentiles are far below 0.7 (0.01 at n=61,292-65,690 to ~0.26 at
+n=200), shrinking with n exactly as AMI's did. Calibrated flag (157,010,
+79.8%) is more than double the literal flag (70,743, 35.9%) and the
+methodology-relative flag (67,341, 34.2%). Same interpretation as Step
+6.1: the literal 0.7 threshold is an effect-size cutoff, not a
+statistical-significance one -- most of the additional calibrated flags
+represent real, detectable (if modest) technical association that the
+spec's high bar doesn't capture, not noise inflating the literal count.
+All three flags (`hijack_flag_literal`, `hijack_flag_relative`,
+`hijack_flag_calibrated`) retained side by side. Full calibration tables
+in data/processed/step6_4_spearman_umi_null_calibration.csv and
+data/processed/step6_4_eta_batch_null_calibration.csv; per-row output in
+data/processed/step6_4_variance_hijacking_calibrated.csv; script at
+code/06_failure_modes/step6_4_null_calibration.R.
+
 scDesign3 and SymSim extracted cleanly — 82/82 and 244/244 fit-keys, zero
 failures. Splatter needed one call per row rather than per fit-key, since
 its seeding is unique per row, and turned up two separate, real data-
