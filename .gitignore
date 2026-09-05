@@ -34,3 +34,4 @@ venv_glmpca_gpu/
 # already distilled into the tracked logs/step*_progress.csv summaries.
 # Historical instances removed in the same commit that added this rule.
 *.log
+Rplots.pdf
