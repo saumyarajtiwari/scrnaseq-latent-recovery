@@ -83,12 +83,21 @@ check_one <- function(fp) {
       loadings_dim = if (!is.null(d$loadings)) paste(dim(d$loadings), collapse = "x") else NA,
       nv_used = if (!is.null(d$nv_used)) d$nv_used else NA,
       any_na_embedding = if (!is.null(d$embedding)) anyNA(d$embedding) else NA,
+      # Item 5 fix: distinguish GLM-PCA's chunked fixed-loadings projection
+      # (pbmc68k, tabula_sapiens_lung -- validated only on Baron, ARI
+      # 0.652->0.421 degradation) from every other file's native fit.
+      # internal_method carries the .rds file's own `method` field verbatim
+      # ("glmpca_chunked_projection" vs "glmpca_nb" vs other methods' own
+      # tags); NA-safe for methods without this field.
+      internal_method = if (!is.null(d$method)) d$method else NA_character_,
+      has_validation_note = !is.null(d$validation_note),
       error_msg = NA_character_
     )
   }, error = function(e) {
     list(status = "error", has_embedding = NA, has_loadings = NA,
          embedding_dim = NA, loadings_dim = NA, nv_used = NA,
-         any_na_embedding = NA, error_msg = conditionMessage(e))
+         any_na_embedding = NA, internal_method = NA_character_,
+         has_validation_note = NA, error_msg = conditionMessage(e))
   })
 }
 
@@ -114,6 +123,8 @@ for (b in seq_len(n_batches)) {
   batch_df$loadings_dim <- vapply(results, function(r) ifelse(is.na(r$loadings_dim), "", r$loadings_dim), character(1))
   batch_df$nv_used <- vapply(results, function(r) ifelse(is.na(r$nv_used), NA_character_, as.character(r$nv_used)), character(1))
   batch_df$any_na_embedding <- vapply(results, function(r) as.character(r$any_na_embedding), character(1))
+  batch_df$internal_method <- vapply(results, function(r) ifelse(is.na(r$internal_method), "", r$internal_method), character(1))
+  batch_df$has_validation_note <- vapply(results, function(r) as.character(r$has_validation_note), character(1))
   batch_df$error_msg <- vapply(results, function(r) ifelse(is.na(r$error_msg), "", r$error_msg), character(1))
 
   write.table(batch_df, MANIFEST_CSV, sep = ",", row.names = FALSE,

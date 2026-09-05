@@ -21,7 +21,11 @@ manifest_meta_cols <- c("data_type", "source", "run_id", "method",
                          "sparsity", "depth", "dropout", "separability", "n_cells", "n_groups",
                          "batch", "gene_strategy", "clipping", "is_null_control",
                          "n_genes", "n_cell_types", "n_cells_unlabeled", "fully_labeled",
-                         "n_batches", "approx_sparsity")
+                         "n_batches", "approx_sparsity",
+                         # Item 5 fix: distinguishes GLM-PCA's chunked fixed-loadings
+                         # projection (pbmc68k, tabula_sapiens_lung -- validated only on
+                         # Baron, ARI 0.652->0.421 degradation) from every native fit.
+                         "internal_method", "has_validation_note")
 manifest_meta <- unique(manifest[, manifest_meta_cols])
 
 final <- merge(combined, manifest_meta, by = c("data_type", "source", "run_id", "method"), all.x = TRUE)

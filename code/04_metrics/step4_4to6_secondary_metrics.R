@@ -168,7 +168,7 @@ write_batch <- function(batch_df) {
               col.names = !file.exists(RESULTS_CSV), append = file.exists(RESULTS_CSV))
 }
 
-sim_manifest <- manifest[manifest$data_type == "simulated" & manifest$is_null_control == FALSE, ]
+sim_manifest <- manifest[manifest$data_type == "simulated" & !(manifest$is_null_control %in% TRUE), ]  # fix: == FALSE silently keeps NA rows as all-NA (same bug class Step 6.1 fixed); affects the 180 unparsed null-control-replicate rows (run_id=NA) discovered during Item 5's manifest rebuild
 sim_groups <- unique(sim_manifest[, c("source", "run_id")])
 sim_groups$sce_path <- sprintf("data/simulated/sce/%s/%s_sce_run_%05d.rds",
                                 sim_groups$source, sim_groups$source, sim_groups$run_id)

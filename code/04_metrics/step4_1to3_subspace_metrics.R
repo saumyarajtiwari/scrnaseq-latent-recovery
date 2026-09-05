@@ -45,7 +45,7 @@ log_msg <- function(...) {
 }
 
 manifest <- read.csv("data/processed/embedding_manifest.csv", stringsAsFactors = FALSE)
-sim_manifest <- manifest[manifest$data_type == "simulated" & manifest$is_null_control == FALSE, ]
+sim_manifest <- manifest[manifest$data_type == "simulated" & !(manifest$is_null_control %in% TRUE), ]  # fix: == FALSE silently keeps NA rows as all-NA (same bug class Step 6.1 fixed); affects the 180 unparsed null-control-replicate rows (run_id=NA) discovered during Item 5's manifest rebuild
 
 groups <- unique(sim_manifest[, c("source", "run_id")])
 log_msg("Total (simulator, run_id) groups to process:", nrow(groups))
