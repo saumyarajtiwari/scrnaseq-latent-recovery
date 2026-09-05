@@ -638,6 +638,16 @@ which Subspace Recovery Score crosses 0.5 for each combination. 24 of
 those 108 rows carry an explicit "unreliable" flag, tracing back to the
 clipping-inertness and SymSim anomalies above.
 
+**Cross-simulator triangulation caveat.** This project's core epistemic
+argument -- agreement across 3 independent simulators rules out
+simulator-specific artifacts -- is degraded for 3 of the 6 stressor axes,
+not just the 2 originally called out inline above: clipping is reliable
+in only 1/3 simulators (Splatter), while both batch and dropout are
+reliable in 2/3 (SymSim excluded from each, for different confirmed
+reasons). Full detail and evidence in docs/step5_axis_findings.md's
+summary section. This should be stated explicitly in the manuscript
+wherever cross-simulator triangulation is invoked as supporting evidence.
+
 Two families of phase-space heatmaps were rendered — sparsity-by-depth
 and dropout-by-depth, one per method — as the final visual deliverable of
 this step.

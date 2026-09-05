@@ -4,6 +4,27 @@ Documented during visual review of the six single-axis subspace-recovery
 plots. Each finding below was investigated with direct data evidence,
 not assumption, following this project's established diagnostic standard.
 
+## Summary: cross-simulator triangulation is degraded for 3 of 6 axes, not 2
+
+This project's core epistemic argument is that agreement across three
+independent simulators (Splatter, scDesign3, SymSim) rules out
+simulator-specific artifacts as an explanation for a finding. That
+argument does not hold at full strength for every axis. Of the six
+stressor axes swept in this step:
+
+- **Clipping**: reliable in 1/3 simulators only (Splatter). scDesign3
+  and SymSim are both confirmed generatively inert for this axis
+  (section 2).
+- **Batch**: reliable in 2/3 simulators. SymSim shows an unexplained,
+  ruled-out-the-obvious-causes anomaly (section 3).
+- **Dropout**: reliable in 2/3 simulators. SymSim shows genuine
+  non-monotonic behavior, confirmed not a simple label swap (section 4).
+- **Sparsity, depth, separability**: reliable across all 3 simulators.
+
+This should be stated explicitly in the manuscript's main text wherever
+cross-simulator triangulation is invoked as supporting evidence, not
+left implicit in this supporting document alone.
+
 ## 1. Dropout — scDesign3 label swap (FIXED)
 
 See `scripts/step5_fix_scdesign3_dropout_labels.R` for full detail.
@@ -12,7 +33,7 @@ their intended severity (confirmed via achieved_sparsity vs. label
 across 6 parameter contexts, 6/6 consistent). Fixed at the results-table
 level (not param_grid.csv, which is simulator-shared and correctly
 specifies the intended design). SymSim's separate, non-swap-fixable
-dropout non-monotonicity remains unresolved (see #3 below).
+dropout non-monotonicity remains unresolved (see #4 below).
 
 ## 2. Clipping — confirmed generatively inert for scDesign3 and SymSim (NOT FIXED - documented limitation)
 
@@ -78,3 +99,37 @@ the-obvious-causes finding.** State plainly that confounding and
 inertness were tested and excluded, and that the precise generative
 mechanism is left to future investigation, consistent with standard
 practice for documenting unexplained-but-verified anomalies.
+
+## 4. Dropout — SymSim shows genuine non-monotonic behavior, not a simple label swap (NOT FIXED - documented limitation)
+
+Referenced from section 1 above and from step5_8_critical_thresholds.R's
+RELIABILITY_NOTE, but not previously written up here with direct
+evidence -- added to close that gap.
+
+Confirmed via direct inspection of achieved sparsity at Step 5's OFAT
+baseline (sparsity=0.9, depth=2000, separability=medium, n_cells=1000,
+batch=none, gene_strategy=all, clipping=none), one file per dropout
+label:
+
+| dropout_label | run_id | achieved_sparsity |
+|---|---|---|
+| none | 188 | 0.8416 |
+| low  | 218 | 0.8320 |
+| high | 203 | 0.8573 |
+
+Expected monotonic ordering is none < low < high. Observed ordering is
+low < none < high -- a two-way violation, not a clean pairwise swap
+(ruling out the same simple-relabel fix applied to scDesign3 in section
+1). This is a single-baseline-point confirmation (n=3 files); the
+original "confirmed not a simple label swap" determination referenced
+by step5_8_critical_thresholds.R was not accompanied by a preserved
+diagnostic artifact at the time of this writeup, so this spot-check
+should be read as consistent-with, not a full replication of, whatever
+broader check originally produced that conclusion.
+
+**Manuscript treatment: SymSim should be excluded from dropout-axis
+triangulation conclusions**, consistent with clipping's treatment in
+section 2 above. Report as a confirmed simulator limitation specific to
+SymSim's dropout-generation mechanism, not as evidence against the
+dropout axis's effect in general.
+
