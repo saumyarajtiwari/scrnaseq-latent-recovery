@@ -433,6 +433,32 @@ measurements of the same thing -- disagreement between a point estimate
 and a marginal average is expected, not contradictory. Full writeup in
 docs/step6_9_failure_mode_review.md.
 
+**Gene-panel-size confound (Item 2), tested and found immaterial.** SCTransform
+v2 and GLM-PCA cap at 3,000 genes (top mean-expression + all-zero-cell
+rescue) while the four linear methods use the full gene set -- raising the
+concern that recovery-score differences partly reflect gene-panel size,
+not method quality. Tested directly: reran all four linear methods
+restricted to the identical 3,000-gene cap, on a 135-file reduced grid
+(sparsity x depth x separability, 3 simulators, baseline elsewhere),
+comparing same-genes vs. full-genes subspace_recovery_score for each of
+540 (file, method) combinations, all succeeding with no errors.
+
+Result: scDesign3 and SymSim's native gene counts (2,000 each, fixed
+since Step 1.4/1.5) fall below the 3,000-gene cap, so it never triggers
+for them -- the confound is structurally moot there, not merely untested.
+Splatter (10,000 genes natively) is the only simulator where the cap
+actually applies, and is therefore the only valid test of this concern;
+n=180 (45 files x 4 methods). There, the same-genes vs. full-genes
+recovery-score delta has median 0.001-0.004 and mean 0.002-0.009 across
+the four methods (max 0.06 for one outlier case) -- two orders of
+magnitude smaller than the linear-vs-nonlinear recovery-score gaps of
+0.3-0.8 documented in the ground-truth-linearity caveat above. Gene-panel
+size is confirmed real as a structural difference between methods but
+not a material driver of this study's observed recovery-score
+differences. Full data in
+results/step4_metrics/step4_item2_gene_panel_sensitivity.csv, analysis
+script at code/04_metrics/step4_item2_gene_panel_sensitivity.R.
+
 scDesign3 and SymSim extracted cleanly — 82/82 and 244/244 fit-keys, zero
 failures. Splatter needed one call per row rather than per fit-key, since
 its seeding is unique per row, and turned up two separate, real data-
