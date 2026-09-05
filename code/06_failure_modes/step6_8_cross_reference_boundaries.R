@@ -131,10 +131,12 @@ for (i in seq_len(nrow(reliable_thresholds))) {
 
     results[[length(results) + 1]] <- data.frame(
       axis = axis_col, simulator = r$simulator, method = r$method,
+      method_family = r$method_family,
       failure_mode = tbl_name, threshold_status = r$threshold_status,
       threshold_value = r$threshold_value, mean_flag_rate = mean(agg$flag_rate),
       min_flag_rate = min(agg$flag_rate), max_flag_rate = max(agg$flag_rate),
-      alignment = alignment
+      alignment = alignment,
+      ground_truth_caveat = r$ground_truth_caveat
     )
   }
 }
