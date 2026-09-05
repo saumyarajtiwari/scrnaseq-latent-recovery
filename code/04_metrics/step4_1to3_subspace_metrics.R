@@ -12,6 +12,25 @@ METHOD_MAP <- list(
   pca_glmpca         = "glmpca"
 )
 
+# Item 1 fix: ground-truth-linearity stratification, defined at the source
+# where these scores are first computed (see PROJECT_HANDOVER.md ground-truth
+# section). grassmann_distance/subspace_recovery_score/spectral_recovery_score
+# are all computed against a LINEAR ground truth (tgm_centered's SVD basis)
+# for every method. For the two nonlinear methods this partly measures "how
+# linear is this method's recovered subspace," not purely biological
+# recovery. No rows are removed; every downstream file that reads this
+# script's output inherits method_family/ground_truth_caveat automatically.
+METHOD_FAMILY <- c(
+  pca_raw = "linear", pca_libnorm = "linear", pca_log = "linear",
+  pca_shiftedlog = "linear", pca_sctransform_v2 = "nonlinear", pca_glmpca = "nonlinear"
+)
+GT_LINEARITY_CAVEAT <- paste(
+  "subspace_recovery_score/grassmann_distance/spectral_recovery_score computed",
+  "against a linearly-defined ground truth; for this nonlinear method the",
+  "score partly reflects representational mismatch, not purely biological",
+  "recovery -- see PROJECT_HANDOVER.md"
+)
+
 N_WORKERS  <- 4
 BATCH_SIZE <- 500
 OUT_DIR    <- "data/processed"
@@ -54,10 +73,13 @@ process_group <- function(sim_name, rid) {
       if (nrow(row_match) != 1) {
         out_rows[[length(out_rows) + 1]] <- data.frame(
           source = sim_name, run_id = rid, method = method,
+          method_family = METHOD_FAMILY[[method]],
           status = "error", error_msg = "manifest row not found",
           grassmann_distance = NA, subspace_recovery_score = NA,
           spectral_recovery_score = NA, max_principal_angle_deg = NA,
-          n_flagged_slippage = NA, stringsAsFactors = FALSE
+          n_flagged_slippage = NA,
+          ground_truth_caveat = if (METHOD_FAMILY[[method]] == "nonlinear") GT_LINEARITY_CAVEAT else NA_character_,
+          stringsAsFactors = FALSE
         )
         next
       }
@@ -97,22 +119,26 @@ process_group <- function(sim_name, rid) {
 
       out_rows[[length(out_rows) + 1]] <- data.frame(
         source = sim_name, run_id = rid, method = method,
+        method_family = METHOD_FAMILY[[method]],
         status = m_res$status, error_msg = m_res$error_msg,
         grassmann_distance = m_res$grassmann_distance,
         subspace_recovery_score = m_res$subspace_recovery_score,
         spectral_recovery_score = m_res$spectral_recovery_score,
         max_principal_angle_deg = m_res$max_principal_angle_deg,
         n_flagged_slippage = m_res$n_flagged_slippage,
+        ground_truth_caveat = if (METHOD_FAMILY[[method]] == "nonlinear") GT_LINEARITY_CAVEAT else NA_character_,
         stringsAsFactors = FALSE
       )
     }
     do.call(rbind, out_rows)
   }, error = function(e) {
     data.frame(source = sim_name, run_id = rid, method = NA,
+               method_family = NA_character_,
                status = "error", error_msg = paste("group-level:", conditionMessage(e)),
                grassmann_distance = NA, subspace_recovery_score = NA,
                spectral_recovery_score = NA, max_principal_angle_deg = NA,
-               n_flagged_slippage = NA, stringsAsFactors = FALSE)
+               n_flagged_slippage = NA,
+               ground_truth_caveat = NA_character_, stringsAsFactors = FALSE)
   })
   res
 }

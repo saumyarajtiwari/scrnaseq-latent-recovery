@@ -1,109 +1,109 @@
-"axis","simulator","method","method_label","threshold_value","threshold_status","reliable","reliability_note"
-"sparsity","scdesign3","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"sparsity","scdesign3","pca_libnorm","Libnorm PCA",0.807487391955476,"interpolated",TRUE,NA
-"sparsity","scdesign3","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,NA
-"sparsity","scdesign3","pca_raw","Raw PCA",0.827280843637148,"interpolated",TRUE,NA
-"sparsity","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,NA
-"sparsity","scdesign3","pca_shiftedlog","Shifted Log-PCA",0.770967100092429,"interpolated",TRUE,NA
-"sparsity","splatter","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"sparsity","splatter","pca_libnorm","Libnorm PCA",0.884667859584993,"interpolated",TRUE,NA
-"sparsity","splatter","pca_log","Log-PCA",0.924351146669268,"interpolated",TRUE,NA
-"sparsity","splatter","pca_raw","Raw PCA",0.797521384121694,"interpolated",TRUE,NA
-"sparsity","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",0.876557924486623,"interpolated",TRUE,NA
-"sparsity","splatter","pca_shiftedlog","Shifted Log-PCA",0.929905116424021,"interpolated",TRUE,NA
-"sparsity","symsim","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"sparsity","symsim","pca_libnorm","Libnorm PCA",0.798999990600317,"interpolated",TRUE,NA
-"sparsity","symsim","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,NA
-"sparsity","symsim","pca_raw","Raw PCA",0.83064756198583,"interpolated",TRUE,NA
-"sparsity","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,NA
-"sparsity","symsim","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",TRUE,NA
-"depth","scdesign3","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"depth","scdesign3","pca_libnorm","Libnorm PCA",NA,"always_below_threshold",TRUE,NA
-"depth","scdesign3","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,NA
-"depth","scdesign3","pca_raw","Raw PCA",NA,"always_below_threshold",TRUE,NA
-"depth","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,NA
-"depth","scdesign3","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",TRUE,NA
-"depth","splatter","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"depth","splatter","pca_libnorm","Libnorm PCA",2481.62200794934,"interpolated",TRUE,NA
-"depth","splatter","pca_log","Log-PCA",950.02902847563,"interpolated",TRUE,NA
-"depth","splatter","pca_raw","Raw PCA",NA,"always_below_threshold",TRUE,NA
-"depth","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,NA
-"depth","splatter","pca_shiftedlog","Shifted Log-PCA",820.476790097474,"interpolated",TRUE,NA
-"depth","symsim","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"depth","symsim","pca_libnorm","Libnorm PCA",932.706371647758,"interpolated",TRUE,NA
-"depth","symsim","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,NA
-"depth","symsim","pca_raw","Raw PCA",1489.83146880769,"interpolated",TRUE,NA
-"depth","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,NA
-"depth","symsim","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",TRUE,NA
-"separability","scdesign3","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"separability","scdesign3","pca_libnorm","Libnorm PCA",NA,"always_below_threshold",TRUE,NA
-"separability","scdesign3","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,NA
-"separability","scdesign3","pca_raw","Raw PCA",NA,"between_low_and_medium",TRUE,NA
-"separability","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,NA
-"separability","scdesign3","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",TRUE,NA
-"separability","splatter","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"separability","splatter","pca_libnorm","Libnorm PCA",NA,"between_medium_and_high",TRUE,NA
-"separability","splatter","pca_log","Log-PCA",NA,"between_low_and_medium",TRUE,NA
-"separability","splatter","pca_raw","Raw PCA",NA,"between_medium_and_high",TRUE,NA
-"separability","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"between_medium_and_high",TRUE,NA
-"separability","splatter","pca_shiftedlog","Shifted Log-PCA",NA,"between_low_and_medium",TRUE,NA
-"separability","symsim","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,NA
-"separability","symsim","pca_libnorm","Libnorm PCA",NA,"between_medium_and_high",TRUE,NA
-"separability","symsim","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,NA
-"separability","symsim","pca_raw","Raw PCA",NA,"between_medium_and_high",TRUE,NA
-"separability","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,NA
-"separability","symsim","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",TRUE,NA
-"batch","scdesign3","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","scdesign3","pca_libnorm","Libnorm PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","scdesign3","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","scdesign3","pca_raw","Raw PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","scdesign3","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","splatter","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","splatter","pca_libnorm","Libnorm PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","splatter","pca_log","Log-PCA",NA,"between_simple_and_complex",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","splatter","pca_raw","Raw PCA",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","splatter","pca_shiftedlog","Shifted Log-PCA",NA,"always_above_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","symsim","pca_glmpca","GLM-PCA",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","symsim","pca_libnorm","Libnorm PCA",NA,"between_simple_and_complex",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","symsim","pca_log","Log-PCA",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","symsim","pca_raw","Raw PCA",NA,"between_simple_and_complex",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"batch","symsim","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)"
-"dropout","scdesign3","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","scdesign3","pca_libnorm","Libnorm PCA",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","scdesign3","pca_log","Log-PCA",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","scdesign3","pca_raw","Raw PCA",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","scdesign3","pca_shiftedlog","Shifted Log-PCA",NA,"between_none_and_low",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","splatter","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","splatter","pca_libnorm","Libnorm PCA",NA,"between_none_and_low",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","splatter","pca_log","Log-PCA",NA,"between_low_and_high",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","splatter","pca_raw","Raw PCA",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","splatter","pca_shiftedlog","Shifted Log-PCA",NA,"between_low_and_high",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","symsim","pca_glmpca","GLM-PCA",NA,"always_below_threshold",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","symsim","pca_libnorm","Libnorm PCA",NA,"between_low_and_high",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","symsim","pca_log","Log-PCA",NA,"always_below_threshold",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","symsim","pca_raw","Raw PCA",NA,"between_low_and_high",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"dropout","symsim","pca_shiftedlog","Shifted Log-PCA",NA,"between_low_and_high",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)"
-"clipping","scdesign3","pca_glmpca","GLM-PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","scdesign3","pca_libnorm","Libnorm PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","scdesign3","pca_log","Log-PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","scdesign3","pca_raw","Raw PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","scdesign3","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","splatter","pca_glmpca","GLM-PCA",NA,"always_below_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","splatter","pca_libnorm","Libnorm PCA",NA,"between_log_stabilized_and_clip99",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","splatter","pca_log","Log-PCA",NA,"always_above_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","splatter","pca_raw","Raw PCA",NA,"always_below_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","splatter","pca_shiftedlog","Shifted Log-PCA",NA,"always_above_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","symsim","pca_glmpca","GLM-PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","symsim","pca_libnorm","Libnorm PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","symsim","pca_log","Log-PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","symsim","pca_raw","Raw PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
-"clipping","symsim","pca_shiftedlog","Shifted Log-PCA",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)"
+"axis","simulator","method","method_label","method_family","threshold_value","threshold_status","reliable","reliability_note","ground_truth_caveat"
+"sparsity","scdesign3","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"sparsity","scdesign3","pca_libnorm","Libnorm PCA","linear",0.807487391955476,"interpolated",TRUE,NA,NA
+"sparsity","scdesign3","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"sparsity","scdesign3","pca_raw","Raw PCA","linear",0.827280843637148,"interpolated",TRUE,NA,NA
+"sparsity","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"sparsity","scdesign3","pca_shiftedlog","Shifted Log-PCA","linear",0.770967100092429,"interpolated",TRUE,NA,NA
+"sparsity","splatter","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"sparsity","splatter","pca_libnorm","Libnorm PCA","linear",0.884667859584993,"interpolated",TRUE,NA,NA
+"sparsity","splatter","pca_log","Log-PCA","linear",0.924351146669268,"interpolated",TRUE,NA,NA
+"sparsity","splatter","pca_raw","Raw PCA","linear",0.797521384121694,"interpolated",TRUE,NA,NA
+"sparsity","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",0.876557924486623,"interpolated",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"sparsity","splatter","pca_shiftedlog","Shifted Log-PCA","linear",0.929905116424021,"interpolated",TRUE,NA,NA
+"sparsity","symsim","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"sparsity","symsim","pca_libnorm","Libnorm PCA","linear",0.798999990600317,"interpolated",TRUE,NA,NA
+"sparsity","symsim","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"sparsity","symsim","pca_raw","Raw PCA","linear",0.83064756198583,"interpolated",TRUE,NA,NA
+"sparsity","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"sparsity","symsim","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"depth","scdesign3","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"depth","scdesign3","pca_libnorm","Libnorm PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"depth","scdesign3","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"depth","scdesign3","pca_raw","Raw PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"depth","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"depth","scdesign3","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"depth","splatter","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"depth","splatter","pca_libnorm","Libnorm PCA","linear",2481.62200794934,"interpolated",TRUE,NA,NA
+"depth","splatter","pca_log","Log-PCA","linear",950.02902847563,"interpolated",TRUE,NA,NA
+"depth","splatter","pca_raw","Raw PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"depth","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"depth","splatter","pca_shiftedlog","Shifted Log-PCA","linear",820.476790097474,"interpolated",TRUE,NA,NA
+"depth","symsim","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"depth","symsim","pca_libnorm","Libnorm PCA","linear",932.706371647758,"interpolated",TRUE,NA,NA
+"depth","symsim","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"depth","symsim","pca_raw","Raw PCA","linear",1489.83146880769,"interpolated",TRUE,NA,NA
+"depth","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"depth","symsim","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"separability","scdesign3","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"separability","scdesign3","pca_libnorm","Libnorm PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"separability","scdesign3","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"separability","scdesign3","pca_raw","Raw PCA","linear",NA,"between_low_and_medium",TRUE,NA,NA
+"separability","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"separability","scdesign3","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"separability","splatter","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"separability","splatter","pca_libnorm","Libnorm PCA","linear",NA,"between_medium_and_high",TRUE,NA,NA
+"separability","splatter","pca_log","Log-PCA","linear",NA,"between_low_and_medium",TRUE,NA,NA
+"separability","splatter","pca_raw","Raw PCA","linear",NA,"between_medium_and_high",TRUE,NA,NA
+"separability","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"between_medium_and_high",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"separability","splatter","pca_shiftedlog","Shifted Log-PCA","linear",NA,"between_low_and_medium",TRUE,NA,NA
+"separability","symsim","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"separability","symsim","pca_libnorm","Libnorm PCA","linear",NA,"between_medium_and_high",TRUE,NA,NA
+"separability","symsim","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"separability","symsim","pca_raw","Raw PCA","linear",NA,"between_medium_and_high",TRUE,NA,NA
+"separability","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,NA,"subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"separability","symsim","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",TRUE,NA,NA
+"batch","scdesign3","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"batch","scdesign3","pca_libnorm","Libnorm PCA","linear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","scdesign3","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","scdesign3","pca_raw","Raw PCA","linear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"batch","scdesign3","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","splatter","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"batch","splatter","pca_libnorm","Libnorm PCA","linear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","splatter","pca_log","Log-PCA","linear",NA,"between_simple_and_complex",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","splatter","pca_raw","Raw PCA","linear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"batch","splatter","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_above_threshold",TRUE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","symsim","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"batch","symsim","pca_libnorm","Libnorm PCA","linear",NA,"between_simple_and_complex",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","symsim","pca_log","Log-PCA","linear",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","symsim","pca_raw","Raw PCA","linear",NA,"between_simple_and_complex",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"batch","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"batch","symsim","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",FALSE,"symsim result reported but flagged unreliable: unexplained anomalous positive relationship, confounding and inertness ruled out (see docs/step5_axis_findings.md)",NA
+"dropout","scdesign3","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"dropout","scdesign3","pca_libnorm","Libnorm PCA","linear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","scdesign3","pca_log","Log-PCA","linear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","scdesign3","pca_raw","Raw PCA","linear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"dropout","scdesign3","pca_shiftedlog","Shifted Log-PCA","linear",NA,"between_none_and_low",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","splatter","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"dropout","splatter","pca_libnorm","Libnorm PCA","linear",NA,"between_none_and_low",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","splatter","pca_log","Log-PCA","linear",NA,"between_low_and_high",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","splatter","pca_raw","Raw PCA","linear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"dropout","splatter","pca_shiftedlog","Shifted Log-PCA","linear",NA,"between_low_and_high",TRUE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","symsim","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"dropout","symsim","pca_libnorm","Libnorm PCA","linear",NA,"between_low_and_high",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","symsim","pca_log","Log-PCA","linear",NA,"always_below_threshold",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","symsim","pca_raw","Raw PCA","linear",NA,"between_low_and_high",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"dropout","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"dropout","symsim","pca_shiftedlog","Shifted Log-PCA","linear",NA,"between_low_and_high",FALSE,"symsim excluded: dropout non-monotonic, confirmed not a simple label swap (see docs/step5_axis_findings.md)",NA
+"clipping","scdesign3","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"clipping","scdesign3","pca_libnorm","Libnorm PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","scdesign3","pca_log","Log-PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","scdesign3","pca_raw","Raw PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","scdesign3","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"clipping","scdesign3","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","splatter","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"clipping","splatter","pca_libnorm","Libnorm PCA","linear",NA,"between_log_stabilized_and_clip99",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","splatter","pca_log","Log-PCA","linear",NA,"always_above_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","splatter","pca_raw","Raw PCA","linear",NA,"always_below_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","splatter","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"clipping","splatter","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_above_threshold",TRUE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","symsim","pca_glmpca","GLM-PCA","nonlinear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"clipping","symsim","pca_libnorm","Libnorm PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","symsim","pca_log","Log-PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","symsim","pca_raw","Raw PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
+"clipping","symsim","pca_sctransform_v2","Pearson Residual PCA (SCT v2)","nonlinear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)","subspace_recovery_score/grassmann_distance/spectral_recovery_score computed against a linearly-defined ground truth; for this nonlinear method the score partly reflects representational mismatch, not purely biological recovery -- see PROJECT_HANDOVER.md"
+"clipping","symsim","pca_shiftedlog","Shifted Log-PCA","linear",NA,"always_below_threshold",FALSE,"scdesign3 and symsim excluded: clipping confirmed generatively inert for both (see docs/step5_axis_findings.md)",NA
