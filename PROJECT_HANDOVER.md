@@ -491,6 +491,24 @@ data/processed/step6_1_batch_ami_null_calibration.csv; per-row output in
 data/processed/step6_1_technical_separation_calibrated.csv; script at
 code/06_failure_modes/step6_1_null_calibration.R.
 
+**GLM-PCA chunked-projection flagging (Item 5).** GLM-PCA's chunked
+fixed-loadings projection (used for pbmc68k and tabula_sapiens_lung,
+since native GLM-PCA fitting exceeds available memory at that scale) was
+validated only on Baron -- a dataset that never needed chunking in
+production, showing a real ARI degradation (0.652 native vs. 0.421
+projected). Left unflagged, these two datasets' GLM-PCA rows could be
+silently pooled with natively-fit GLM-PCA results in aggregate tables or
+figures. Fixed at the source: a full manifest rebuild
+(embedding_manifest.csv, 197,100 files) adds `internal_method` (each
+.rds file's own "glmpca_chunked_projection" vs. "glmpca_nb" tag, verbatim)
+and `has_validation_note` (boolean), propagated through
+step4_9_compile_results.R's explicit column selection into
+step4_master_results_table.csv. Exactly 2 of 196,830 rows carry the
+chunked-projection flag, matching the known scope precisely. Any
+manuscript table or figure aggregating GLM-PCA results should filter or
+visibly mark on `internal_method`, the same way `method_family` handles
+the linear/nonlinear distinction from Item 1.
+
 scDesign3 and SymSim extracted cleanly — 82/82 and 244/244 fit-keys, zero
 failures. Splatter needed one call per row rather than per fit-key, since
 its seeding is unique per row, and turned up two separate, real data-
