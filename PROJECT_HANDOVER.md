@@ -509,6 +509,46 @@ manuscript table or figure aggregating GLM-PCA results should filter or
 visibly mark on `internal_method`, the same way `method_family` handles
 the linear/nonlinear distinction from Item 1.
 
+**Multiple-comparisons null calibration (Item 6), Cluster Collapse (Step
+6.2).** Same motivation as Step 6.1's calibration, but silhouette is a
+geometry-dependent statistic, not a label-agreement one, so it is
+calibrated via Step 6.3's noise-generation template rather than Step
+6.1's label-permutation approach: random Gaussian embeddings at the real
+(n_labeled, n_groups_used, nv_used) structure, roughly-equal synthetic
+group sizes (same simplifying assumption as Step 6.1; real group sizes
+are often unequal, a disclosed limitation not expected to change the
+qualitative picture), 200 draws, using the identical simplified_
+silhouette() function from step4_4to6_secondary_metrics.R. 29 buckets
+covering all ~196,830 rows.
+
+Result, in the OPPOSITE direction from Step 6.1's finding: the
+calibrated flag (silhouette below the bucket's null 5th percentile) is
+52,293 -- roughly one-third of the literal silhouette<0.2 flag count
+(163,844). Null-distribution medians cluster tightly around zero (-0.018
+to +0.010 across buckets) while real data's median silhouette (0.022)
+sits meaningfully above most of them. This means roughly 111,551 of the
+163,844 literally-flagged rows show silhouette statistically
+distinguishable from pure noise -- real, detectable separation, just at
+a numerically low value, consistent with silhouette's known tendency to
+compress toward zero in higher-dimensional embeddings even for
+genuinely-separated clusters (a curse-of-dimensionality effect, not
+evidence of absent structure).
+
+**This refines, but does not reverse or contradict, docs/step6_9_
+failure_mode_review.md's "RETAINED, strongly supported" verdict for
+Cluster Collapse**, nor its 52/52 Step 5.8 alignment finding (which
+concerns correlation between independently-derived signals, unaffected
+by whether underlying silhouette values are modest-but-real or robustly
+separated). The precise, calibration-informed claim: of rows flagged
+under the literal threshold, roughly two-thirds show statistically real
+(if numerically modest) separation, and roughly one-third are genuinely
+indistinguishable from random noise. Both flags
+(`silhouette_trigger` literal, `silhouette_trigger_relative` calibrated)
+retained side by side per established precedent. Full calibration table
+in data/processed/step6_2_silhouette_null_calibration.csv; per-row
+output in data/processed/step6_2_cluster_collapse_calibrated.csv; script
+at code/06_failure_modes/step6_2_null_calibration.R.
+
 scDesign3 and SymSim extracted cleanly — 82/82 and 244/244 fit-keys, zero
 failures. Splatter needed one call per row rather than per fit-key, since
 its seeding is unique per row, and turned up two separate, real data-
