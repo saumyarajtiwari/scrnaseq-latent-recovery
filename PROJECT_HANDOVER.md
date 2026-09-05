@@ -459,6 +459,38 @@ differences. Full data in
 results/step4_metrics/step4_item2_gene_panel_sensitivity.csv, analysis
 script at code/04_metrics/step4_item2_gene_panel_sensitivity.R.
 
+**Multiple-comparisons null calibration (Item 6), Technical Separation
+(Step 6.1).** The literal spec threshold (AMI>0.5 against batch_id or
+UMI-quartile) had no check against what pure chance would produce.
+Calibrated via label-permutation nulls (200 draws, aricode::AMI),
+stratified by (n_cells, k_used) for UMI-quartile and additionally by
+batch cardinality for the batch covariate -- 16 UMI buckets, 25 batch
+buckets (20 simulated + 5 real), covering all ~196,830 rows. Stability
+confirmed: 200 vs. 2,000 draws give 95th-percentile estimates within
+~15% of each other, same order of magnitude.
+
+Result, in the opposite direction from what a "how much of this is
+noise" framing anticipates: the calibrated 95th-percentile null
+thresholds are tiny (0.00003 at n=61,292 cells to 0.03 at n=200 cells),
+because AMI's null distribution under permutation concentrates sharply
+around zero and tightens further as n grows -- standard behavior for
+information-theoretic association measures at this scale. Consequently
+the calibrated flag count (155,711 of 196,830) is six times LARGER than
+the literal AMI>0.5 flag count (25,192), not smaller. This means the
+literal 0.5 threshold is not really a statistical-significance
+criterion -- it is a de facto effect-size cutoff. Essentially none of
+the 25,192 literal flags are attributable to chance; they are a
+conservative, high-effect-size subset of a much larger set of
+statistically real (if often practically small) batch/UMI associations.
+Both the literal flag (`technical_separation_flag`) and the new
+calibrated flag (`technical_separation_flag_relative`) are retained
+side by side, per Step 6.3's established precedent -- neither replaces
+the other. Full calibration tables in
+data/processed/step6_1_umi_ami_null_calibration.csv and
+data/processed/step6_1_batch_ami_null_calibration.csv; per-row output in
+data/processed/step6_1_technical_separation_calibrated.csv; script at
+code/06_failure_modes/step6_1_null_calibration.R.
+
 scDesign3 and SymSim extracted cleanly — 82/82 and 244/244 fit-keys, zero
 failures. Splatter needed one call per row rather than per fit-key, since
 its seeding is unique per row, and turned up two separate, real data-
