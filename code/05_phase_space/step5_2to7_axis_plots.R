@@ -12,6 +12,15 @@ METHOD_LABELS <- c(
 )
 d$method_label <- METHOD_LABELS[d$method]
 
+# Item 1 fix: nonlinear methods (SCTransform v2, GLM-PCA) are scored against
+# a linearly-defined ground truth (see PROJECT_HANDOVER.md), so overlaying
+# them with linear methods on one panel risks being read as pure biological
+# recovery when part of the gap is representational mismatch. Distinguish
+# by linetype (dashed = nonlinear) rather than separating into new panels,
+# to keep the existing plot structure/output paths unchanged.
+d$method_family <- ifelse(d$method %in% c("pca_sctransform_v2", "pca_glmpca"),
+                           "nonlinear", "linear")
+
 AXIS_SPECS <- list(
   sparsity     = list(flag = "in_sparsity_sweep",     x = "sparsity",     order = c(0.7,0.8,0.9,0.95,0.98), title = "Sparsity", step = "5.2"),
   depth        = list(flag = "in_depth_sweep",        x = "depth",        order = c(500,2000,10000),        title = "Sequencing Depth", step = "5.3"),
@@ -27,18 +36,20 @@ for (axis_name in names(AXIS_SPECS)) {
   sub[[spec$x]] <- factor(sub[[spec$x]], levels = spec$order)
 
   p <- ggplot(sub, aes(x = .data[[spec$x]], y = subspace_recovery_score,
-                        color = method_label, group = method_label)) +
+                        color = method_label, group = method_label, linetype = method_family)) +
     geom_line(linewidth = 0.8) +
     geom_point(size = 1.8) +
-    geom_hline(yintercept = 0.5, linetype = "dashed", color = "grey40") +
+    geom_hline(yintercept = 0.5, linetype = "dotted", color = "grey40") +
+    scale_linetype_manual(values = c(linear = "solid", nonlinear = "22"), guide = "none") +
     facet_wrap(~ source, ncol = 3) +
     labs(title = paste0("Step ", spec$step, ": Subspace Recovery vs. ", spec$title),
-         subtitle = "Dashed line = 0.5 failure threshold. Faceted by simulator.",
+         subtitle = paste0("Dotted line = 0.5 failure threshold. Dashed = nonlinear methods ",
+                            "(SCT v2, GLM-PCA) -- scored vs. a linear ground truth, see PROJECT_HANDOVER.md."),
          x = spec$title, y = "Subspace Recovery Score", color = "Method") +
     theme_minimal(base_size = 11) +
     theme(legend.position = "bottom", plot.title = element_text(face = "bold"))
 
-  out_file <- file.path("figures/step5_axis_sweeps", paste0("step", gsub("\\.", "_", spec$step), "_", axis_name, ".png"))
+  out_file <- file.path("results/step5_phase_space/figures", paste0("step", gsub("\\.", "_", spec$step), "_", axis_name, ".png"))
   ggsave(out_file, p, width = 12, height = 4.5, dpi = 150)
   cat("Saved:", out_file, "\n")
 }

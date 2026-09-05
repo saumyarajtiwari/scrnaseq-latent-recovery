@@ -73,13 +73,13 @@ cat("Rows:", nrow(sweep1), "(expect", 15*6, ")\n")
 panels1 <- list()
 for (method in METHOD_ORDER) {
   p <- make_heatmap(sweep1, "sparsity", "depth", method, "Sparsity", "Depth", log_y = TRUE)
-  ggsave(file.path("figures/step5_9_phase_maps", paste0("sparsity_depth_", method, ".png")),
+  ggsave(file.path("results/step5_phase_space/figures", paste0("sparsity_depth_", method, ".png")),
          p, width = 5, height = 4, dpi = 150)
   panels1[[method]] <- p
 }
 combined1 <- arrangeGrob(grobs = panels1, ncol = 3, nrow = 2,
                           top = "Step 5.9 Sweep 1: Subspace Recovery - Sparsity x Depth (Splatter)")
-ggsave("figures/step5_9_phase_maps/sweep1_sparsity_depth_combined.png", combined1,
+ggsave("results/step5_phase_space/figures/sweep1_sparsity_depth_combined.png", combined1,
        width = 15, height = 8, dpi = 150)
 
 cat("\n=== Sweep 2: Dropout x Depth (Splatter, 3x3=9 points/method) ===\n")
@@ -110,13 +110,13 @@ for (method in METHOD_ORDER) {
     labs(title = METHOD_LABELS[method], x = "Dropout", y = "Depth") +
     theme_minimal(base_size = 10) +
     theme(plot.title = element_text(size = 10, face = "bold"))
-  ggsave(file.path("figures/step5_9_phase_maps", paste0("dropout_depth_", method, ".png")),
+  ggsave(file.path("results/step5_phase_space/figures", paste0("dropout_depth_", method, ".png")),
          p, width = 5, height = 4, dpi = 150)
   panels2[[method]] <- p
 }
 combined2 <- arrangeGrob(grobs = panels2, ncol = 3, nrow = 2,
                           top = "Step 5.9 Sweep 2: Subspace Recovery - Dropout x Depth (Splatter)")
-ggsave("figures/step5_9_phase_maps/sweep2_dropout_depth_combined.png", combined2,
+ggsave("results/step5_phase_space/figures/sweep2_dropout_depth_combined.png", combined2,
        width = 15, height = 8, dpi = 150)
 
 cat("\n=== STEP 5.9 COMPLETE ===\n")
