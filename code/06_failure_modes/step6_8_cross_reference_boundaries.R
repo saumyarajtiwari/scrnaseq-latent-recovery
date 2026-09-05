@@ -21,7 +21,15 @@
 #   axes.
 # - Marginal aggregation: flag rate per axis level is averaged across all
 #   other grid dimensions (this is a full-factorial design, not one-axis-
-#   at-a-time), matching Step 5's own axis-sweep methodology.
+#   at-a-time). NOTE: this does NOT match Step 5's axis-sweep methodology --
+#   step5_1_organize_by_axis.R holds every other axis at a single fixed
+#   baseline (OFAT design), so Step 5.8's per-axis thresholds characterize
+#   behavior at ONE grid point, while this script's flag rates characterize
+#   the FULL marginal grid (e.g. 3,643 rows vs. 1, for splatter/shiftedlog/
+#   batch=complex). This scope mismatch is the resolved explanation for the
+#   3 combinations flagged as an open contradiction in
+#   docs/step6_9_failure_mode_review.md -- see that document and
+#   PROJECT_HANDOVER.md for the full writeup.
 
 AXIS_LEVEL_ORDER <- list(
   sparsity = c("0.7","0.8","0.9","0.95","0.98"),

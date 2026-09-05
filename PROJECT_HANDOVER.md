@@ -419,6 +419,20 @@ nonlinear) rather than silently pooled. This should be stated explicitly
 in the manuscript wherever simulated-data recovery scores are compared
 across methods.
 
+**Step 5.8 vs. Step 6.8 resolution (added post-review).** Three
+(axis, simulator, method) combinations initially appeared to show Step
+5.8's geometric recovery boundary ("never fails") contradicting three
+independent Step 6 failure-mode tests ("fails 70-93% of the time"). Root
+cause, confirmed with direct file-level evidence: Step 5.8's per-axis
+thresholds are computed from a one-axis-at-a-time (OFAT) sweep held at a
+single baseline point in the 8-dimensional grid, while Step 6.8's
+cross-reference averages flag rates across the full marginal grid (e.g.
+3,643 rows vs. 1 baseline row, for one such combination). These are two
+different statistical claims about the same parameter space, not two
+measurements of the same thing -- disagreement between a point estimate
+and a marginal average is expected, not contradictory. Full writeup in
+docs/step6_9_failure_mode_review.md.
+
 scDesign3 and SymSim extracted cleanly — 82/82 and 244/244 fit-keys, zero
 failures. Splatter needed one call per row rather than per fit-key, since
 its seeding is unique per row, and turned up two separate, real data-

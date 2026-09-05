@@ -226,23 +226,48 @@ consistent with GLM-PCA's poor showing throughout Steps 6.3–6.5.
 
 ---
 
-## Open item carried forward from Step 6.8, not resolved here
+## Resolved: Step 5.8 vs. Step 6.8 apparent contradiction (3 combinations)
 
 **Three (axis, simulator, method) combinations** — (batch, splatter,
 pca_shiftedlog), (clipping, splatter, pca_log), (clipping, splatter,
 pca_shiftedlog) — have Step 5.8 classifying subspace recovery as
-`always_above_threshold` (never fails), while **three independently-
-computed failure modes (Cluster Collapse, Neighborhood Collapse, Subspace
-Rotation Slippage) all consistently disagree**, showing 70–93% flag rates.
-The three failure modes corroborate each other tightly, which makes this a
-well-supported discrepancy, not noise from one flaky metric.
+`always_above_threshold` (never fails), while three independently-computed
+failure modes (Cluster Collapse, Neighborhood Collapse, Subspace Rotation
+Slippage) all consistently disagreed, showing 70-93% flag rates.
 
-**This is flagged, not adjudicated, in this document.** Resolving it would
-require returning to Step 5.8's original axis-sweep computation for these
-3 specific combinations with fresh eyes — outside Step 6.9's scope of
-reviewing Step 6's own findings. Recommended as an explicit open item for
-the manuscript's limitations section, or for a targeted follow-up before
-final submission.
+**Root cause, confirmed with direct file-level evidence (not inference):**
+this is a scope mismatch between two genuinely different statistical
+claims, not a contradiction between two measurements of the same thing.
+step5_1_organize_by_axis.R's axis-sweep table holds every axis except the
+one being swept at a single fixed baseline (sparsity=0.9, depth=2000,
+dropout=low, separability=medium, n_cells=1000, clipping=none) -- a
+one-axis-at-a-time (OFAT) design. Step 5.8's threshold classifications
+therefore characterize behavior at exactly ONE point in the 8-dimensional
+grid. Step 6.8's cross-reference, by contrast, computes marginal flag
+rates averaged across ALL other grid dimensions at each axis level --
+e.g. for splatter/pca_shiftedlog/batch=complex, 3,643 full-grid rows
+versus exactly 1 row at Step 5's OFAT baseline. A metric can legitimately
+look like it "never fails" at one specific baseline point while failing
+across most of the surrounding grid -- this is expected behavior for a
+heterogeneous response surface, not measurement disagreement.
+
+A secondary contributing factor: Step 6.7 checks only the first 3 of the
+4 available principal-angle dimensions (N_PCS_CHECK=3, while r=n_groups-1=4
+project-wide), so it can miss slippage concentrated in the 4th direction
+(confirmed directly for splatter/pca_shiftedlog/run_id=623: Step 4's full
+canonical angles are 18.3/21.6/26.3/75.7 degrees -- the severely rotated
+4th direction sits entirely outside Step 6.7's checked range). This is a
+scope limitation worth disclosing but is secondary to the OFAT-vs-marginal
+mismatch above, which is sufficient on its own to explain the discrepancy.
+
+**Neither Step 5.8 nor Step 6.8's underlying computations are incorrect.**
+No findings retained elsewhere in this document require revision. The
+step6_8_cross_reference_boundaries.R header comment claiming this
+aggregation "match[es] Step 5's own axis-sweep methodology" has been
+corrected, as it was the one actually inaccurate statement in this chain.
+This should be reported in the manuscript as a methodological note on
+comparing point-estimate and marginal-average characterizations of the
+same parameter space, not as an unresolved limitation.
 
 ---
 
